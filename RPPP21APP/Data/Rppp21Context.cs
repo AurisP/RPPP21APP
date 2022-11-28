@@ -12,8 +12,7 @@ public partial class Rppp21Context : DbContext
     {
     }
 
-    public Rppp21Context(DbContextOptions<Rppp21Context> options)
-        : base(options)
+    public Rppp21Context(DbContextOptions<Rppp21Context> options) : base(options)
     {
     }
 
@@ -76,8 +75,13 @@ public partial class Rppp21Context : DbContext
     public virtual DbSet<Worker> Workers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.\\;Data Source=fantom.fer.hr,3000;Initial Catalog=RPPP21;Persist Security Info=True;TrustServerCertificate=True;User ID=rppp21;Password=mekbuda-518");
+    {
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+        optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
