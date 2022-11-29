@@ -6,13 +6,13 @@ using RPPP21APP.Models;
 
 namespace RPPP21APP.Data;
 
-public partial class Rppp21Context : DbContext
+public partial class ApplicationDbContext : DbContext
 {
-    public Rppp21Context()
+    public ApplicationDbContext()
     {
     }
 
-    public Rppp21Context(DbContextOptions<Rppp21Context> options) : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
 

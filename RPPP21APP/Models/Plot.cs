@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RPPP21APP.Models;
 
@@ -10,7 +11,6 @@ public partial class Plot
     public string? Coordinates { get; set; }
 
     public double? Area { get; set; }
-
     public int PlotId { get; set; }
 
     public int WeatherConditionsId { get; set; }
