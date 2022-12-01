@@ -44,6 +44,7 @@ namespace RPPP21APP.Controllers
                     Name = plotVM.Name,
                     Coordinates = plotVM.Coordinates,
                     Area = plotVM.Area,
+                    WeatherConditionsId = plotVM.WeatherConditionsId,
                     
                 };
                 _clubRepository.Add(plot);
