@@ -23,13 +23,11 @@
         <span asp-validation-for="Area" class="text-danger"></span>
     </div>
     <div class="form group">
-        @*<label asp-for="WeatherConditionsId">WeatherCondition</label>
-        <select asp-for="WeatherConditionsId" asp-items="*@
-        @Html.DropDownListFor(x => x.WeatherConditionsId,
-        new SelectList(Model.WeatherConditions, "WeatherConditionsId", "SunLevel", Model.WeatherConditionsId),
-        "-- Select --"
-        )
-        @Html.ValidationMessageFor(x => x.WeatherConditionsId)
+        <label asp-for="WeatherConditionsId">WeatherCondition</label>
+        <select asp-for="WeatherConditionsId" asp-items="@(new SelectList(Model.WeatherConditions, "WeatherConditionsId","SunLevel"))" class="form-control form-control">
+            <option>Please select one</option>
+    </select>
+        <span asp-validation-for="WeatherConditions" class="text-danger"></span>
         
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
