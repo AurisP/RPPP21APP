@@ -32,7 +32,7 @@ namespace RPPP21APP.Repository
 
         public async Task<Plot> GetByIdasync(int id)
         {
-            return await _context.Plots.FirstOrDefaultAsync(i => i.PlotId == id);
+            return await _context.Plots.Include(i => i.WeatherConditionsId).FirstOrDefaultAsync(i => i.WeatherConditionsId == id);
         }
 
         public bool Save()

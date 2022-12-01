@@ -1,0 +1,36 @@
+﻿@using RPPP21APP.ViewModels;
+@model CreatePlotViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form method="post" asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" aria-describedby="emailHelp" placeholder="Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Coordinates">Coordinates</label>
+        <input asp-for="Coordinates" class="form-control" aria-describedby="emailHelp" placeholder="Coordinates">
+        <span asp-validation-for="Coordinates" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Area">Area</label>
+        <input asp-for="Area" class="form-control" aria-describedby="emailHelp" placeholder="Image">
+        <span asp-validation-for="Area" class="text-danger"></span>
+    </div>
+    <div class="form group">
+        @*<label asp-for="WeatherConditionsId">WeatherCondition</label>
+        <select asp-for="WeatherConditionsId" asp-items="*@
+        @Html.DropDownListFor(x => x.WeatherConditionsId,
+        new SelectList(Model.WeatherConditions, "WeatherConditionsId", "SunLevel", Model.WeatherConditionsId),
+        "-- Select --"
+        )
+        @Html.ValidationMessageFor(x => x.WeatherConditionsId)
+        
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
