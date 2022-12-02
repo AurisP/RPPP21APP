@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
 using RPPP21APP.Repository;
@@ -21,8 +23,11 @@ namespace RPPP21APP.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Plot> plots = await _clubRepository.GetAll();
-            return View(plots);
+            using (var context = new ApplicationDbContext())
+            {
+                var model = await context.Plots.Include(a => a.WeatherConditions).AsNoTracking().ToListAsync();
+                return View(model);
+            }
         }
 
         public async Task<IActionResult> Create()
@@ -35,9 +40,9 @@ namespace RPPP21APP.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreatePlotViewModel plotVM)
+        public async Task<IActionResult> Create(CreatePlotViewModel plotVM)
         {
-            if (ModelState.IsValid)
+            using (var context = new ApplicationDbContext())
             {
                 var plot = new Plot
                 {
@@ -45,18 +50,13 @@ namespace RPPP21APP.Controllers
                     Coordinates = plotVM.Coordinates,
                     Area = plotVM.Area,
                     WeatherConditionsId = plotVM.WeatherConditionsId,
-                    
                 };
-                _clubRepository.Add(plot);
+
+                context.Plots.Add(plot);
+                await context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            else
-            {
-                ModelState.AddModelError("", "Club creation failed");
-            }
-            return View(plotVM);
+               
         }
-    }
-
-    
+    }   
 }

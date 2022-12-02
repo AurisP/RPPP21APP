@@ -6,8 +6,9 @@
 *@
 @{
 }
-<form method="post" asp-action="Create">
-    <div class="form-group">
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    
+    <div class="form-group" style="margin-top:90px">
         <label asp-for="Name">Name</label>
         <input asp-for="Name" class="form-control" aria-describedby="emailHelp" placeholder="Name">
         <span asp-validation-for="Name" class="text-danger"></span>
