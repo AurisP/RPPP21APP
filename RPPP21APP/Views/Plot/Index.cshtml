@@ -12,7 +12,8 @@
                     <div class="btn-group">
                         <a type="btn btn-success" asp-controller="Plot" asp-action="Detail" asp-route-id="@item.PlotId"
                        class="btn btn-sm btn-outline-secondary">View</a>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        <a type="btn btn-success" asp-controller="Plot" asp-action="Edit" asp-route-id="@item.PlotId"
+                       class="btn btn-sm btn-outline-secondary">Edit</a>
                     </div>
                     <small class="text-muted">9 mins</small>
                 </div>
