@@ -8,17 +8,18 @@ using RPPP21APP.ViewModels;
 using System.Collections.Generic;
 using System.Net;
 
+
 namespace RPPP21APP.Controllers
 {
     public class PlotController : Controller
     {
 
-        private readonly IPlotRepository _clubRepository;
+        private readonly IPlotRepository _plotRepository;
         private readonly IWeatherConditionsRepository _weatherConditionsRepository;
 
         public PlotController(IPlotRepository plotRepository, IWeatherConditionsRepository weatherConditionsRepository)
         {
-            _clubRepository = plotRepository;
+            _plotRepository = plotRepository; //Probably not necessary because using DbContext
             _weatherConditionsRepository = weatherConditionsRepository;
         }
         public async Task<IActionResult> Index()
@@ -80,6 +81,11 @@ namespace RPPP21APP.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, CreatePlotViewModel plotVM)
         {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to edit plot");
+                return View("Edit", plotVM);
+            }
             using (var context = new ApplicationDbContext())
             {
                 var plot = new Plot
@@ -92,14 +98,35 @@ namespace RPPP21APP.Controllers
                    
                 };
                 var entity = await context.Plots.FirstOrDefaultAsync(x => x.PlotId == id);
-                context.Plots.Update(entity);
-                //context.Entry(entity).Property(x => x.PlotId).IsModified = false;
+                if (entity == null) return View("Error");
+                context.Plots.Update(entity);               
+                //context.Entry(entity).Property(x => x.PlotId).IsModified = false; //Maybe necessary for safety??
                 context.Entry(entity).CurrentValues.SetValues(plot);                
                 context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
 
+        }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            using (var context = new ApplicationDbContext())
+            {               
+                var plot = await context.Plots.Include(x => x.Infrastructures)
+                    .Include(x => x.GroupsOnPlots)
+                        .ThenInclude(x => x.GroupOfPlants)
+                            .ThenInclude(x => x.PlantType)
+                                
+                    .Include(x => x.GroupsOnPlots)
+                        .ThenInclude(x => x.GroupOfPlants)
+                            .ThenInclude(x => x.PlantType)
+
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.PlotId == id);
+
+                return View(plot);
+            }
         }
     }
 }
