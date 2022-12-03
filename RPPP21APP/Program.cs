@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPlotRepository, PlotRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddScoped<IWeatherConditionsRepository, WeatherConditionsRepository>();
+builder.Services.AddScoped<IGroupOfPlants, GroupOfPlantsRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

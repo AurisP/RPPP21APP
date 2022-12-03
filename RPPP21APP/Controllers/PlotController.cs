@@ -19,7 +19,7 @@ namespace RPPP21APP.Controllers
 
         public PlotController(IPlotRepository plotRepository, IWeatherConditionsRepository weatherConditionsRepository)
         {
-            _plotRepository = plotRepository; //Probably not necessary because using DbContext
+            _plotRepository = plotRepository;
             _weatherConditionsRepository = weatherConditionsRepository;
         }
         public async Task<IActionResult> Index()
@@ -31,6 +31,8 @@ namespace RPPP21APP.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Plot/Create")]
         public async Task<IActionResult> Create()
         {
             CreatePlotViewModel plotVM = new CreatePlotViewModel()
@@ -55,6 +57,8 @@ namespace RPPP21APP.Controllers
                 return RedirectToAction("Index");           
         }
 
+        [HttpGet]
+        [Route("Plot/Edit/{Id}")]
         public async Task<IActionResult> Edit(int id)
         {           
                 var plot = await _plotRepository.GetByIdAsync(id);
@@ -92,13 +96,15 @@ namespace RPPP21APP.Controllers
             var entity = await _plotRepository.GetByIdAsyncNoTrack(id);
             if (entity == null) return View("Error");
             _plotRepository.Update(plot);               
-            //    //context.Entry(entity).Property(x => x.PlotId).IsModified = false; //Maybe necessary for safety??
+            //context.Entry(entity).Property(x => x.PlotId).IsModified = false; //Maybe necessary for safety??
             //context.Entry(entity).CurrentValues.SetValues(plot);                
             //context.SaveChanges();
 
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        [Route("Plot/{Id}")]
         public async Task<IActionResult> Detail(int id)
         {
             using (var context = new ApplicationDbContext())
