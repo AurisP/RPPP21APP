@@ -30,9 +30,14 @@ namespace RPPP21APP.Repository
             return await _context.Plots.ToListAsync();
         }
 
-        public async Task<Plot> GetByIdasync(int id)
+        public async Task<Plot> GetByIdAsyncNoTrack(int id)
         {
-            return await _context.Plots.Include(i => i.WeatherConditionsId).FirstOrDefaultAsync(i => i.WeatherConditionsId == id);
+            return await _context.Plots.Include(i => i.WeatherConditions).AsNoTracking().FirstOrDefaultAsync(i => i.PlotId == id);
+        }
+
+        public async Task<Plot>? GetByIdAsync(int id)
+        {
+            return await _context.Plots.Include(i => i.WeatherConditions).FirstOrDefaultAsync(i => i.PlotId == id);
         }
 
         public bool Save()
@@ -43,7 +48,8 @@ namespace RPPP21APP.Repository
 
         public bool Update(Plot plot)
         {
-            throw new NotImplementedException();
+            _context.Update(plot);
+            return Save();
         }
     }
 }

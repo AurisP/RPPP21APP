@@ -26,7 +26,7 @@ namespace RPPP21APP.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                var model = await context.Plots.Include(a => a.WeatherConditions).AsNoTracking().ToListAsync();
+                var model = await _plotRepository.GetAll();
                 return View(model);
             }
         }
@@ -42,9 +42,7 @@ namespace RPPP21APP.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create(CreatePlotViewModel plotVM)
-        {
-            using (var context = new ApplicationDbContext())
-            {
+        {          
                 var plot = new Plot
                 {
                     Name = plotVM.Name,
@@ -53,29 +51,23 @@ namespace RPPP21APP.Controllers
                     WeatherConditionsId = plotVM.WeatherConditionsId,
                 };
 
-                context.Plots.Add(plot);
-                await context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
+                _plotRepository.Add(plot);               
+                return RedirectToAction("Index");           
         }
 
         public async Task<IActionResult> Edit(int id)
-        {
-            using (var context = new ApplicationDbContext())
-            {
-                var entity = context.Plots.FirstOrDefault(item => item.PlotId == id);
-                if (entity == null) return View("Error");
+        {           
+                var plot = await _plotRepository.GetByIdAsync(id);
+                if (plot == null) return View("Error");
                 var plotVM = new CreatePlotViewModel
                 {
-                    Name = entity.Name,
-                    Coordinates = entity.Coordinates,
-                    Area = entity.Area,
-                    WeatherConditionsId = entity.WeatherConditionsId,
+                    Name = plot.Name,
+                    Coordinates = plot.Coordinates,
+                    Area = plot.Area,
+                    WeatherConditionsId = plot.WeatherConditionsId,
                     WeatherConditions = await _weatherConditionsRepository.GetAll()
                 };
-                return View(plotVM);
-            }
+                return View(plotVM);           
         }
 
         [HttpPost]
@@ -86,27 +78,25 @@ namespace RPPP21APP.Controllers
                 ModelState.AddModelError("", "Failed to edit plot");
                 return View("Edit", plotVM);
             }
-            using (var context = new ApplicationDbContext())
+
+            var plot = new Plot
             {
-                var plot = new Plot
-                {
-                    Name = plotVM.Name,
-                    Coordinates = plotVM.Coordinates,
-                    Area = plotVM.Area,
-                    WeatherConditionsId = plotVM.WeatherConditionsId,
-                    PlotId = id
-                   
-                };
-                var entity = await context.Plots.FirstOrDefaultAsync(x => x.PlotId == id);
-                if (entity == null) return View("Error");
-                context.Plots.Update(entity);               
-                //context.Entry(entity).Property(x => x.PlotId).IsModified = false; //Maybe necessary for safety??
-                context.Entry(entity).CurrentValues.SetValues(plot);                
-                context.SaveChanges();
+                Name = plotVM.Name,
+                Coordinates = plotVM.Coordinates,
+                Area = plotVM.Area,
+                WeatherConditionsId = plotVM.WeatherConditionsId,
+                PlotId = id,
+                WeatherConditions = await _weatherConditionsRepository.GetByIdAsync(id),
+            };
+           
+            var entity = await _plotRepository.GetByIdAsyncNoTrack(id);
+            if (entity == null) return View("Error");
+            _plotRepository.Update(plot);               
+            //    //context.Entry(entity).Property(x => x.PlotId).IsModified = false; //Maybe necessary for safety??
+            //context.Entry(entity).CurrentValues.SetValues(plot);                
+            //context.SaveChanges();
 
-                return RedirectToAction("Index");
-            }
-
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Detail(int id)
@@ -120,7 +110,7 @@ namespace RPPP21APP.Controllers
                                 
                     .Include(x => x.GroupsOnPlots)
                         .ThenInclude(x => x.GroupOfPlants)
-                            .ThenInclude(x => x.PlantType)
+                            .ThenInclude(x => x.Plants)
 
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.PlotId == id);

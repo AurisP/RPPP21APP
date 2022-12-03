@@ -29,6 +29,12 @@ namespace RPPP21APP.Repository
         {
             return await _context.WeatherConditions.ToListAsync();
         }
+
+        public async Task<WeatherCondition?> GetByIdAsync(int id)
+        {
+            return await _context.WeatherConditions.FirstOrDefaultAsync(i => i.WeatherConditionsId == id);
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
