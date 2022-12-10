@@ -4,9 +4,9 @@ namespace RPPP21APP.Interfaces
 {
     public interface IGroupOfPlants
     {
-        Task<IEnumerable<GroupOfPlant>> GetAll();
-        Task<GroupOfPlant>? GetByIdAsync(int PlotId, int TypeId);
-        Task<GroupOfPlant> GetByIdAsyncNoTrack(int PlotId, int TypeId);
+        Task<IEnumerable<PlantType>> GetAvailableTypes(int plotId);
+        Task<GroupOfPlant?> GetByIdAsync(int plotId, int typeId);
+        Task<GroupOfPlant?> GetByIdAsyncNoTrack(int plotId, int typeId);
         bool Add(GroupOfPlant groupOfPlant);
         bool Update(GroupOfPlant groupOfPlant);
         bool Delete(GroupOfPlant groupOfPlant);

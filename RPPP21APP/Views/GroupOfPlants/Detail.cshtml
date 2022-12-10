@@ -14,7 +14,11 @@
         <p class="col-md-8 fs-4"> Fiber: @Model.PlantType.FiberPer100g</p>
         <p class="col-md-8 fs-4"> Plant Time: @Model.GroupsOnPlot.PlantTime</p>
         <p class="col-md-8 fs-4"> Plant Time: @Model.GroupsOnPlot.Quantity</p>
-       
+        <p>Plants:</p>
+       @foreach (var item in Model.Plants)
+        {
+            <p class="col-md-8 fs-4"> Plant Time: @item.Name</p>
+        }
         <button class="btn btn-primary btn-lg" type="button">Example button</button>
     </div>
 </div>

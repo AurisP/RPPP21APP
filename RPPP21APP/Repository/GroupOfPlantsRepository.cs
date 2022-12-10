@@ -25,31 +25,45 @@ namespace RPPP21APP.Repository
             return Save();
         }
 
-        public async Task<IEnumerable<GroupOfPlant>> GetAll()
+        public async Task<IEnumerable<PlantType>> GetAvailableTypes(int plotId)
         {
-            return await _context.GroupOfPlants.Include(a => a.GroupsOnPlot).Include(a => a.PlantType).AsNoTracking().ToListAsync();
+            return await _context.GroupOfPlants
+                .Include(i => i.GroupsOnPlot)
+                .Where(g => g.GroupsOnPlot.PlotId != plotId)
+                .Select(g => g.PlantType).ToListAsync();
+                          
         }
 
-        public async Task<GroupOfPlant> GetByIdAsync(int PlotId, int TypeId)
+        public async Task<GroupOfPlant?> GetByIdAsync(int plotId, int typeId)
         {
-            return await _context.GroupOfPlants.Include(i => i.GroupsOnPlot).Include(i => i.PlantType)
-                .FirstOrDefaultAsync(i => i.GroupsOnPlotId == PlotId && i.PlantTypeId == TypeId);
+            return await _context.GroupOfPlants
+                .Include(i => i.GroupsOnPlot)
+                .Include(i => i.PlantType)
+
+                .FirstOrDefaultAsync(i => i.GroupsOnPlotId == plotId && i.PlantTypeId == typeId);
         }
 
-        public async Task<GroupOfPlant> GetByIdAsyncNoTrack(int PlotId, int TypeId)
+        public async Task<GroupOfPlant?> GetByIdAsyncNoTrack(int plotId, int typeId)
         {
-            return await _context.GroupOfPlants.Include(i => i.GroupsOnPlot).ThenInclude(i => i.Plot).Include(i => i.PlantType).AsNoTracking()
-                .FirstOrDefaultAsync(i => i.GroupsOnPlot.PlotId == PlotId && i.PlantTypeId == TypeId);
+            return await _context.GroupOfPlants
+                .Include(i => i.GroupsOnPlot)
+                    .ThenInclude(i => i.Plot)
+                .Include(i => i.PlantType)
+                .Include(i => i.Plants)
+
+                .AsNoTracking().FirstOrDefaultAsync(i => i.GroupsOnPlot.PlotId == plotId && i.PlantTypeId == typeId);
         }
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool Update(GroupOfPlant groupOfPlant)
         {
-            throw new NotImplementedException();
+            _context.Update(groupOfPlant);
+            return Save();
         }
     }
 }
