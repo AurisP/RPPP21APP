@@ -1,10 +1,17 @@
 ﻿@model IEnumerable<Plot>
+<style>
+    .top {
+        margin-top: 80px;
+    }
 
+</style>
+
+<div class="text-center top">
 @foreach (var item in Model)
 {
     <div class="col">
         <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            @*<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>*@
 
             <div class="card-body">
                 <p class="card-text">@item.Name</p>
@@ -15,9 +22,13 @@
                         <a type="btn btn-success" asp-controller="Plot" asp-action="Edit" asp-route-id="@item.PlotId"
                        class="btn btn-sm btn-outline-secondary">Edit</a>
                     </div>
-                    <small class="text-muted">9 mins</small>
-                </div>
+@*                    <small class="text-muted">9 mins</small>
+*@                </div>
             </div>
         </div>
     </div>
+
+
+
 }
+</div>

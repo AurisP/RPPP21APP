@@ -1,5 +1,6 @@
 using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
+using RPPP21APP.Repositories;
 using RPPP21APP.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddScoped<IPlotRepository, PlotRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddScoped<IWeatherConditionsRepository, WeatherConditionsRepository>();
 builder.Services.AddScoped<IGroupOfPlants, GroupOfPlantsRepository>();
+builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
