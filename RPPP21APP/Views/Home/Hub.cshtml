@@ -1,12 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Hub for choosing options";
 }
-<style>
-    .top{
-        margin-top: 80px;
-    }
-
-</style>
+<head>
+     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
 
 <div class="text-center top">
 
@@ -16,11 +13,13 @@
                 <div class="col">
                     <div class="p-3 border bg-light">
                        <a class="nav-link text-light" asp-area="" asp-controller="Plot" asp-action="Index"> 
-                           <button type="button" class="btn btn-secondary btn-lg btn-block" >Plot</button>
+                           <button type="button" class="btn btn-secondary btn-lg btn-block hubbuttons" >Plot</button>
                        </a>
                     </div>
                     <div class="p-3 border bg-light">
-                        <button type="button" class="btn btn-secondary btn-lg btn-block">Block level button</button>
+                        <a class="nav-link text-light" asp-area="" asp-controller="Workers" asp-action="Index">
+                            <button type="button" class="btn btn-secondary btn-lg btn-block hubbuttons">Workers</button>
+                        </a>
                     </div>
                     <div class="p-3 border bg-light">
                         <button type="button" class="btn btn-secondary btn-lg btn-block">Block level button</button>

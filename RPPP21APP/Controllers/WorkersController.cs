@@ -52,7 +52,8 @@ namespace RPPP21APP.Controllers
 
         // GET: WorkersController/Create
         // GET: Worker/Create
-        public IActionResult Create()
+
+        public async Task<IActionResult> Create()
         {
             return View();
         }
@@ -60,11 +61,22 @@ namespace RPPP21APP.Controllers
         // POST: WorkersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(CreateWorkerViewModel workerVM)
         {
+            var worker = new Worker
+            {
+                Name = workerVM.Name,
+                Surname = workerVM.Surname,
+                Salary = workerVM.Salary,
+                PhoneNumber = workerVM.PhoneNumber,
+                Experience = workerVM.Experience,
+                WorkingHours = workerVM.WorkingHours,
+            };
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                _workerRepository.Add(worker);
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -73,19 +85,41 @@ namespace RPPP21APP.Controllers
         }
 
         // GET: WorkersController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var worker = await _workerRepository.GetByIdAsync(id);
+
+            if (worker == null)
+            {
+                return NotFound();
+            }
+
+            return View(worker);
         }
 
         // POST: WorkersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, CreateWorkerViewModel workerVM)
         {
+
+            var worker = await _workerRepository.GetByIdAsync(id);
+            if (worker == null)
+            {
+                return NotFound();
+            }
             try
             {
-                return RedirectToAction(nameof(Index));
+                // Update worker with values from view model
+                worker.Name = workerVM.Name;
+                worker.Surname = workerVM.Surname;
+                worker.Salary = workerVM.Salary;
+                worker.PhoneNumber = workerVM.PhoneNumber;
+                worker.Experience = workerVM.Experience;
+                worker.WorkingHours = workerVM.WorkingHours;
+
+                _workerRepository.Update(worker);
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -93,25 +127,31 @@ namespace RPPP21APP.Controllers
             }
         }
 
+
+
+
         // GET: WorkersController/Delete/5
-        public ActionResult Delete(int id)
+        // GET: WorkersController/Delete/5
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            var worker = await _workerRepository.GetByIdAsync(id);
+            if (worker == null)
+            {
+                return NotFound();
+            }
+
+            return View(worker);
         }
 
         // POST: WorkersController/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var worker = await _workerRepository.GetByIdAsync(id);
+            _workerRepository.Delete(worker);
+            _workerRepository.Save();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
