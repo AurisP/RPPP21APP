@@ -27,7 +27,6 @@ namespace RPPP21APP.Controllers
         // GET: Worker
         public async Task<IActionResult> Index()
         {
-            ;
             var workers = await _workerRepository.GetAll();
             return View(workers);
         }
