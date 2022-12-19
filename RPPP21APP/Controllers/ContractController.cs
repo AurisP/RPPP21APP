@@ -74,15 +74,15 @@ namespace RPPP21APP.Controllers
                 ContractorId = contractVM.ContractorId
             };
 
-            try
-            {
+            //try
+            //{
                 _contractRepository.Add(contract);
                 return RedirectToAction("Index");
-            }
+            /*}
             catch
             {
                 return View();
-            }
+            }*/
         }
 
         // GET: Contract/Edit/5

@@ -14,3 +14,36 @@
     <a asp-controller="Contractor" asp-action="Index">See contractors</a>
 </p>
 
+@*
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContractId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        @if (item != null) {    
+        <tr>
+                <td>
+                    @Html.DisplayFor(model => item.ContractId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ContractorId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ContractorId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ContractorId">Delete</a>
+                </td>
+            </tr>
+        }   
+    }
+    </tbody>
+</table>
+*@

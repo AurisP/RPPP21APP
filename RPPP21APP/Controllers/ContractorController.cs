@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
+using RPPP21APP.Repository;
+using RPPP21APP.ViewModels;
 
 namespace RPPP21APP.Controllers
 {
@@ -50,23 +52,28 @@ namespace RPPP21APP.Controllers
             return View();
         }
 
-        /*
+        
         // POST: Contractor/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContractorId,Name,Surname,PhoneNumber,Email,Address")] Contractor contractor)
+        public async Task<IActionResult> Create(CreateContractorViewModel contractorVM)
         {
-            if (ModelState.IsValid)
+            var contractor = new Contractor
             {
-                _context.Add(contractor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(contractor);
+                Name = contractorVM.Name,
+                Surname = contractorVM.Surname,
+                PhoneNumber = contractorVM.PhoneNumber,
+                Email = contractorVM.Email,
+                Address = contractorVM.Address
+            };
+
+            _contractorRepository.Add(contractor);
+            return RedirectToAction("Index");
         }
 
+        /*
         // GET: Contractor/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
