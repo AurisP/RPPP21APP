@@ -4,39 +4,40 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Workers</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
+<div class="table-responsive">
+<table class="table table-hover table-dark">
     <thead>
         <tr>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.Surname)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.Salary)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.Experience)
             </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.WorkingHours)
             </th>
-            <th></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td scope="row">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
@@ -55,11 +56,11 @@
                 @Html.DisplayFor(modelItem => item.WorkingHours)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.WorkerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.WorkerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.WorkerId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.WorkerId" class="btn btn-secondary mr-2">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.WorkerId" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>
