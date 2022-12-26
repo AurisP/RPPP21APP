@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddScoped<IWeatherConditionsRepository, WeatherConditionsRepository>();
 builder.Services.AddScoped<IGroupOfPlants, GroupOfPlantsRepository>();
 builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();
+builder.Services.AddScoped<IInfrastructureRepository, InfrastructureRepository>();
 builder.Services.AddScoped<IContractRepository, ContractRepository>();
 builder.Services.AddScoped<IContractorRepository, ContractorRepository>();
 var app = builder.Build();

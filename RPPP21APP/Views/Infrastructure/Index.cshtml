@@ -1,0 +1,54 @@
+﻿@model IEnumerable<RPPP21APP.Models.Infrastructure>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Infrastructure</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<div class="table-responsive">
+<table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.BuildDate)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Plot)
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td scope="row">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                 @Html.DisplayFor(modelItem => item.BuildDate)
+            </td>
+            <td>
+                  @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => item.Plot.Name)
+            </td>
+            <td>
+                        <a asp-action="Edit" asp-route-id="@item.InfrastructureId" class="btn btn-secondary mr-2">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.InfrastructureId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
