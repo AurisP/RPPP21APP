@@ -7,7 +7,7 @@ public partial class Plant
 {
     public int PlantId { get; set; }
 
-    public int? Name { get; set; }
+    public string? Name { get; set; }
 
     public int? GroupOfPlantsId { get; set; }
 

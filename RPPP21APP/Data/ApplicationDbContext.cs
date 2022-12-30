@@ -493,7 +493,7 @@ public partial class ApplicationDbContext : DbContext
 
             entity.Property(e => e.PlantId).HasColumnName("PlantID");
             entity.Property(e => e.GroupOfPlantsId).HasColumnName("GroupOfPlantsID");
-
+            entity.Property(e => e.Name).HasColumnType("text");
             entity.HasOne(d => d.GroupOfPlants).WithMany(p => p.Plants)
                 .HasForeignKey(d => d.GroupOfPlantsId)
                 .HasConstraintName("Species_GroupOfPlants_GroupOFPlantsID_fk");
