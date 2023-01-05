@@ -46,6 +46,7 @@
             <td>
                         <a asp-action="Edit" asp-route-id="@item.InfrastructureId" class="btn btn-secondary mr-2">Edit</a>
                         <a asp-action="Delete" asp-route-id="@item.InfrastructureId" class="btn btn-danger">Delete</a>
+                        <a asp-controller="HistoricalInfrastructure" asp-action="Create" asp-route-id="@item.InfrastructureId">Demolish</a>
             </td>
         </tr>
 }
