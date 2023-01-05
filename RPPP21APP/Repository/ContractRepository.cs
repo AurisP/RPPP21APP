@@ -15,12 +15,12 @@ namespace RPPP21APP.Repository
         }
         public async Task<IEnumerable<Contract>> GetAll()
         {
-            return await _context.Contracts.ToListAsync();
+            return await _context.Contracts.Include(i => i.Contractor).AsNoTracking().ToListAsync();
         }
 
         public async Task<Contract> GetByIdAsync(int id)
         {
-            return await _context.Contracts.Include(i => i.Contractor).FirstOrDefaultAsync(i => i.ContractId == id);
+            return await _context.Contracts.Include(i => i.Contractor).AsNoTracking().FirstOrDefaultAsync(i => i.ContractId == id);
         }
 
         public async Task<Contract> GetByIdAsyncNoTrack(int id)
@@ -29,25 +29,24 @@ namespace RPPP21APP.Repository
         }
         public bool Add(Contract contract)
         {
-            _context.Add(contract);
+            _context.Contracts.Add(contract);
             return Save();
         }
 
         public bool Delete(Contract contract)
         {
-            _context.Remove(contract);
+            _context.Contracts.Remove(contract);
             return Save();
         }
 
         public bool Save()
         {
-            var saved = _context.SaveChanges();
-            return saved > 0 ? true : false;
+            return _context.SaveChanges() >= 0;
         }
 
         public bool Update(Contract contract)
         {
-            _context.Update(contract);
+            _context.Contracts.Update(contract);
             return Save();
         }
     }

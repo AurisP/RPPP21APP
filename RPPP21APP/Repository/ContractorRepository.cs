@@ -27,12 +27,12 @@ namespace RPPP21APP.Repository
 
         public async Task<Contractor> GetByIdAsync(int id)
         {
-            return await _context.Contractors.FindAsync(id);
+            return await _context.Contractors.FirstOrDefaultAsync(i => i.ContractorId == id);
         }
 
         public async Task<Contractor> GetByIdAsyncNoTrack(int id)
         {
-            return await _context.Contractors.AsNoTracking().FirstOrDefaultAsync(w => w.ContractorId == id);
+            return await _context.Contractors.AsNoTracking().FirstOrDefaultAsync(i => i.ContractorId == id);
         }
         public bool Add(Contractor contractor)
         {

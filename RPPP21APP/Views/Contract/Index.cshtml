@@ -7,14 +7,14 @@
 <h1>Contracts</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 
 <p>
-    <a asp-controller="Contractor" asp-action="Index">See contractors</a>
+    <a asp-controller="Contractor" asp-action="Index" class="btn btn-primary">See contractors</a>
 </p>
 
-@*
+
 <table class="table">
     <thead>
         <tr>
@@ -22,8 +22,12 @@
                 @Html.DisplayNameFor(model => model.ContractId)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -34,16 +38,18 @@
                     @Html.DisplayFor(model => item.ContractId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    @Html.DisplayFor(model => item.Description)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ContractorId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ContractorId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ContractorId">Delete</a>
+                    @Html.DisplayFor(model => item.Date)
                 </td>
-            </tr>
+                <td>
+                <a asp-action="Edit" asp-route-id="@item.ContractId" class="btn btn-secondary mr-2">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.ContractId" class="btn btn-secondary mr-2">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.ContractId" class="btn btn-danger">Delete</a>
+                </td>
+        </tr>
         }   
     }
     </tbody>
 </table>
-*@
