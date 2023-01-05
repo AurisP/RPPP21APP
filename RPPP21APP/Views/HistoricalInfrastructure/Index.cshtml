@@ -1,0 +1,56 @@
+﻿@model IEnumerable<RPPP21APP.Models.HistoricalInfrastructure>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Historical Infrastructure</h1>
+<div class="table-responsive">
+    <table class="table table-hover table-dark">
+    <thead>
+        <tr>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.DateOfdestrcution)
+            </th>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.ReasonOfDestruction)
+            </th>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.CostOfDestruction)
+            </th>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.EarningsOnMaterials)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Infrastructure)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                    <td scope="row">
+                @Html.DisplayFor(modelItem => item.DateOfdestrcution)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReasonOfDestruction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostOfDestruction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EarningsOnMaterials)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InfrastructureId)
+            </td>
+            <td>
+                        <a asp-action="Delete" asp-route-id="@item.HistoricalInfrastructureId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+

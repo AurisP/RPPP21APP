@@ -20,15 +20,19 @@ namespace RPPP21APP.Controllers
         // GET: InfrastructureController
         private readonly IInfrastructureRepository _infrastructureRepository;
         private readonly IPlotRepository _plotRepository;
+        private readonly IHistoricalInfrastructureRepository _historicalInfrastructureRepository;
 
-        public InfrastructureController(IInfrastructureRepository repository, IPlotRepository plotRepository)
+        public InfrastructureController(IInfrastructureRepository repository, IPlotRepository plotRepository, IHistoricalInfrastructureRepository historicalInfrastructureRepository)
         {
             _infrastructureRepository = repository;
             _plotRepository = plotRepository;
+            _historicalInfrastructureRepository = historicalInfrastructureRepository;
         }
         public async Task<ActionResult> Index()
         {
             var infrastructures = await _infrastructureRepository.GetAll();
+            //infrastructures = infrastructures.Where(i => _historicalInfrastructureRepository.Exists(hi => ((Infrastructure)hi).InfrastructureId == i.InfrastructureId));
+
             return View(infrastructures);
         }
 
@@ -143,8 +147,14 @@ namespace RPPP21APP.Controllers
             // Delete the infrastructure object from the database
             _infrastructureRepository.Delete(infrastructure);
             // Redirect to the index page
+
+                // Otherwise, redirect to the Index action in the current controller
             return RedirectToAction("Index");
+
         }
+
+
+
 
     }
 }
