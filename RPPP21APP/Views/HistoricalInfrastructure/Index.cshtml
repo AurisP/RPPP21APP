@@ -43,10 +43,11 @@
                 @Html.DisplayFor(modelItem => item.EarningsOnMaterials)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InfrastructureId)
+                @Html.DisplayFor(modelItem => item.Infrastructure.Name)
             </td>
             <td>
-                        <a asp-action="Delete" asp-route-id="@item.HistoricalInfrastructureId" class="btn btn-danger">Delete</a>
+                   <a asp-action="Delete" asp-route-id="@item.HistoricalInfrastructureId" class="btn btn-danger">Delete</a>
+                        <a asp-controller ="Infrastructure" asp-action="Details" asp-route-id="@item.InfrastructureId" class="btn btn-secondary mr-2">Details</a>
             </td>
         </tr>
 }

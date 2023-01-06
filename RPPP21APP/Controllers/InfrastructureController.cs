@@ -11,7 +11,7 @@ using RPPP21APP.Repository;
 using RPPP21APP.ViewModels;
 using System.Collections.Generic;
 using System.Net;
-
+using System.Linq;
 
 namespace RPPP21APP.Controllers
 {
@@ -30,16 +30,25 @@ namespace RPPP21APP.Controllers
         }
         public async Task<ActionResult> Index()
         {
+            //var infrastructures = await _infrastructureRepository.GetAll();
             var infrastructures = await _infrastructureRepository.GetAll();
-            //infrastructures = infrastructures.Where(i => _historicalInfrastructureRepository.Exists(hi => ((Infrastructure)hi).InfrastructureId == i.InfrastructureId));
-
-            return View(infrastructures);
+            var historicalinfrastructures = await _historicalInfrastructureRepository.GetAll();
+            var infrastructuresNotInHistoricalInfrastructure = infrastructures.Where(i => !historicalinfrastructures.Any(hi => hi.InfrastructureId == i.InfrastructureId));
+            return View(infrastructuresNotInHistoricalInfrastructure);
         }
 
         // GET: InfrastructureController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            var infrastructure = await _infrastructureRepository.GetByIdAsync(id);
+            var historical = await _historicalInfrastructureRepository.GetAll();
+            //var historical = (await _historicalInfrastructureRepository.GetAll()).Where(h => h.InfrastructureId == id);
+            //ViewBag.DateOfDestruction = historical.Select(h => h.DateOfDestruction);
+            //ViewBag.ReasonOfDestruction = historical.Select(h => h.ReasonOfDestruction);
+            //ViewBag.CostOfDestruction = historical.Select(h => h.CostOfDestruction);
+            //ViewBag.EarningsOnMaterials = historical.Select(h => h.EarningsOnMaterials);
+
+            return View(infrastructure);
         }
 
         // GET: InfrastructureController/Create
