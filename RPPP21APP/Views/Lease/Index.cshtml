@@ -1,0 +1,55 @@
+﻿@model IEnumerable<RPPP21APP.Models.Lease>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Leases</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+<a asp-controller="LeaseType" asp-action="Index" class="btn btn-primary">See Lease Types</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaseType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Plot)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contract.ContractId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaseType.LeaseTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plot.PlotId)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.LeaseId" class="btn btn-secondary mr-2">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.LeaseId" class="btn btn-secondary mr-2">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.LeaseId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
