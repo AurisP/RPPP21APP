@@ -79,6 +79,11 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateContractViewModel contractVM)
         {
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem(ModelState);
+            }
+
             var contract = new Models.Contract
             {
                 Date = (DateTime)contractVM.Date,
@@ -121,7 +126,7 @@ namespace RPPP21APP.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Failed to edit plot");
+                ModelState.AddModelError("", "Failed to edit");
                 return View("Edit", contractVM);
             }
 

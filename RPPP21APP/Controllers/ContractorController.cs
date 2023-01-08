@@ -46,6 +46,11 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateContractorViewModel contractorVM)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Create");
+            }
+
             var contractor = new Contractor
             {
                 Name = contractorVM.Name,
@@ -79,6 +84,11 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CreateContractorViewModel contractorVM)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Edit");
+            }
+
             var contractor = await _contractorRepository.GetByIdAsync(id);
             if (contractor == null)
             {
@@ -90,6 +100,9 @@ namespace RPPP21APP.Controllers
             contractor.PhoneNumber = contractorVM.PhoneNumber;
             contractor.Email = contractorVM.Email;
             contractor.Address = contractorVM.Address;
+
+
+
             try
             {
                 _contractorRepository.Update(contractor);

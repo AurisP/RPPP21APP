@@ -89,14 +89,14 @@
                     @Html.DisplayFor(model => item.LeaseType.Name)
                 </td>
                 <td>
-                    <a asp-action="Delete" asp-route-id="@item.LeaseId" class="btn btn-danger">Delete</a>
+                    <a asp-action="Delete" asp-controller="Leases" asp-route-id="@item.LeaseId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <div>
-    <a asp-action="Create" asp-route-id="model.Lease.LeaseId" class="btn btn-success">Add New</a>
+    <a asp-action="Create" asp-controller="Leases" class="btn btn-success">Add New</a>
 </div>
 <p class="bottom-two"></p>
 
