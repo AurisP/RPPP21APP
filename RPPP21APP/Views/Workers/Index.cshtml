@@ -44,29 +44,29 @@
 
 <div class="table-responsive">
 <table class="table table-hover table-dark">
- @*   <thead>
+    <thead>
         <tr>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.Name)
+                        @Html.DisplayNameFor(model => Model.Workers.FirstOrDefault().Name)
             </th>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.Surname)
+                        @Html.DisplayNameFor(model => Model.Workers.FirstOrDefault().Surname)
             </th>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.Salary)
+                        @Html.DisplayNameFor(model => Model.Workers.FirstOrDefault().Salary)
             </th>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                        @Html.DisplayNameFor(model => Model.Workers.FirstOrDefault().PhoneNumber)
             </th>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.Experience)
+                        @Html.DisplayNameFor(model => Model.Workers.FirstOrDefault().Experience)
             </th>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.WorkingHours)
+                        @Html.DisplayNameFor(model => Model.Workers.FirstOrDefault().WorkingHours)
             </th>
             <th scope="col"></th>
         </tr>
-    </thead>*@
+    </thead>
     <tbody>
 @foreach (var item in Model.Workers) {
         <tr>
