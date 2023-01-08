@@ -66,11 +66,11 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult<Infrastructure>> Create(CreateInfrastructureViewModel model)
         {
-            /*if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 ViewBag.PlotId = new SelectList(await _plotRepository.GetAll(), "PlotId", "Name");
                 return View("Create");
-            }*/
+            }
 
             var infrastructure = new Infrastructure
             {
@@ -110,11 +110,11 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, CreateInfrastructureViewModel model)
         {
-            /*if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 ViewBag.PlotId = new SelectList(await _plotRepository.GetAll(), "PlotId", "Name");
                 return View("Edit");
-            }*/
+            }
             
             var infrastructure = await _infrastructureRepository.GetByIdAsync(id);
             if (infrastructure == null)

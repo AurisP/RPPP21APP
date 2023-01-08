@@ -43,6 +43,12 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult<Passport>> Create(CreatePassportViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.PlantId = new SelectList(await _plantRepository.GetAll(), "PlantId", "Name");
+                return View("Create");
+            }
+
             var passport = new Passport
             {
                 LatinName = model.LatinName,
@@ -82,6 +88,12 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, CreatePassportViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.PlantId = new SelectList(await _plantRepository.GetAll(), "PlantId", "Name");
+                return View("Edit");
+            }
+
             var passport = await _passportRepository.GetByIdAsync(id);
             if (passport == null)
             {
