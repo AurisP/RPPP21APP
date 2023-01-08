@@ -23,6 +23,7 @@ namespace RPPP21APP.Controllers
         public async Task<IActionResult> Index()
         {
             var plants = await _plantRepository.GetAll();
+
             return View(plants);
         }
 

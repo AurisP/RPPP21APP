@@ -21,6 +21,7 @@ namespace RPPP21APP.Repositories
         {
             return await _context.Plants
             .Include(i => i.GroupOfPlants)
+            .ThenInclude(g => g.PlantType)
             .ToListAsync();
         }
 

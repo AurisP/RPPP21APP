@@ -8,6 +8,8 @@
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-controller="Passport" asp-action="Index" class="btn btn-secondary">All Passports</a>
+    <a asp-controller="PlantType" asp-action="Index" class="btn btn-warning">All PlantTypes</a>
 </p>
 <div class="table-responsive">
     <table class="table table-hover table-dark">
@@ -17,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
                 <th scope="col">
-                @Html.DisplayNameFor(model => model.GroupOfPlants)
+                Plant Type
             </th>
             <th></th>
         </tr>
@@ -29,12 +31,13 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GroupOfPlants.GroupOfPlantsId)
+                @Html.DisplayFor(modelItem => item.GroupOfPlants.PlantType.Type)
             </td>
             <td>
                         <a asp-action="Edit" asp-route-id="@item.PlantId" class="btn btn-secondary mr-2">Edit</a> 
-                        <a asp-action="Details" asp-route-id="@item.PlantId" class="btn btn-secondary mr-2">Details</a> 
+                        <a asp-controller="Passport" asp-action="Details" asp-route-id="@item.PlantId" class="btn btn-secondary mr-2">Details</a> 
                         <a asp-action="Delete" asp-route-id="@item.PlantId" class="btn btn-danger">Delete</a>
+
             </td>
         </tr>
 }

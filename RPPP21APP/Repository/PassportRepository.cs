@@ -35,6 +35,11 @@ namespace RPPP21APP.Repositories
             return await _context.Passports.AsNoTracking().FirstOrDefaultAsync(w => w.PassportId == id);
         }
 
+        public async Task<Passport> GetDetailed(int id)
+        {
+            return await _context.Passports.Where(p => p.PlantId == id).FirstOrDefaultAsync();
+        }
+
         public bool Add(Passport passport)
         {
             _context.Passports.Add(passport);

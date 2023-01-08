@@ -5,6 +5,7 @@ namespace RPPP21APP.Interfaces
     public interface IPassportRepository
     {
         Task<IEnumerable<Passport>> GetAll();
+        Task<Passport> GetDetailed(int id);
         Task<Passport> GetByIdAsync(int id);
         Task<Passport> GetByIdAsyncNoTrack(int id);
         bool Add(Passport passport);

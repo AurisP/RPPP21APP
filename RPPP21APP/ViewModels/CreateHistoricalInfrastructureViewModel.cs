@@ -11,11 +11,11 @@ namespace RPPP21APP.ViewModels
         [MinLength(5)]
         public string ReasonOfDestruction { get; set; }
         [Range(0, 10000000)]
-        public int CostOfDestruction { get; set; }
+        public int? CostOfDestruction { get; set; }
         [Range(0, 10000000)]
-        public int EarningsOnMaterials { get; set; }
+        public int? EarningsOnMaterials { get; set; }
         public int InfrastructureId { get; set; }
-        //public virtual Infrastructure Infrastructure { get; set; }
+        public virtual Infrastructure Infrastructure { get; set; }
 
     }
 }

@@ -56,10 +56,10 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(HistoricalInfrastructure model)
         {
-            /*if (!ModelState.IsValid)
-            {
-                return View("Create");
-            }*/
+            //if (!ModelState.IsValid)
+            //{
+            //    return View("Create");
+            //}
 
             var historical = new HistoricalInfrastructure
             {

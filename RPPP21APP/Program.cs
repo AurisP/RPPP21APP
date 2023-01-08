@@ -18,6 +18,7 @@ builder.Services.AddScoped<IContractorRepository, ContractorRepository>();
 builder.Services.AddScoped<IHistoricalInfrastructureRepository, HistoricalInfrastructureRepository>();
 builder.Services.AddScoped<IPassportRepository, PassportRepository>();
 builder.Services.AddScoped<IPlantRepository, PlantRepository>();
+builder.Services.AddScoped<IPlantTypeRepository, PlantTypeRepository>();
 
 var app = builder.Build();
 
