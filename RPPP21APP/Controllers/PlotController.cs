@@ -44,17 +44,23 @@ namespace RPPP21APP.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create(CreatePlotViewModel plotVM)
-        {          
-                var plot = new Plot
-                {
-                    Name = plotVM.Name,
-                    Coordinates = plotVM.Coordinates,
-                    Area = plotVM.Area,
-                    WeatherConditionsId = plotVM.WeatherConditionsId,
-                };
+        {
+            /*if (!ModelState.IsValid)
+            {
+                plotVM.WeatherConditions = await _weatherConditionsRepository.GetAll();
+                return View("Create");
+            }*/
 
-                _plotRepository.Add(plot);               
-                return RedirectToAction("Index");           
+            var plot = new Plot
+            {
+                Name = plotVM.Name,
+                Coordinates = plotVM.Coordinates,
+                Area = plotVM.Area,
+                WeatherConditionsId = plotVM.WeatherConditionsId,
+            };
+
+            _plotRepository.Add(plot);               
+            return RedirectToAction("Index");           
         }
 
         [HttpGet]

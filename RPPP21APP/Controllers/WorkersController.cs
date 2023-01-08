@@ -109,6 +109,11 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateWorkerViewModel workerVM)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Create");
+            }
+
             var worker = new Worker
             {
                 Name = workerVM.Name,
@@ -149,6 +154,11 @@ namespace RPPP21APP.Controllers
         public async Task<ActionResult> Edit(int id, CreateWorkerViewModel workerVM)
         {
 
+            if (!ModelState.IsValid)
+            {
+                return View("Edit");
+            }
+            
             var worker = await _workerRepository.GetByIdAsync(id);
             if (worker == null)
             {
