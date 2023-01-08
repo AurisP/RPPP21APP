@@ -26,7 +26,9 @@ namespace RPPP21APP.Repositories
 
         public async Task<Infrastructure> GetByIdAsync(int id)
         {
-            return await _context.Infrastructures.FindAsync(id);
+            return await _context.Infrastructures
+                .Include(i => i.Plot)
+                .FirstOrDefaultAsync(i => i.InfrastructureId == id);
         }
 
         public async Task<Infrastructure> GetByIdAsyncNoTrack(int id)

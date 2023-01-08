@@ -11,7 +11,8 @@ using RPPP21APP.Repository;
 using RPPP21APP.ViewModels;
 using System.Collections.Generic;
 using System.Net;
-
+using System.Linq;
+using System.Drawing.Printing;
 
 namespace RPPP21APP.Controllers
 {
@@ -31,15 +32,26 @@ namespace RPPP21APP.Controllers
         public async Task<ActionResult> Index()
         {
             var infrastructures = await _infrastructureRepository.GetAll();
-            //infrastructures = infrastructures.Where(i => _historicalInfrastructureRepository.Exists(hi => ((Infrastructure)hi).InfrastructureId == i.InfrastructureId));
+            var historicalinfrastructures = await _historicalInfrastructureRepository.GetAll();
+            var infrastructuresNotInHistoricalInfrastructure = infrastructures.Where(i => !historicalinfrastructures
+            .Any(hi => hi.InfrastructureId == i.InfrastructureId));
 
-            return View(infrastructures);
+            return View(infrastructuresNotInHistoricalInfrastructure);
         }
 
         // GET: InfrastructureController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id, DateTime date, string reason, decimal cost, decimal earnings)
         {
-            return View();
+            //var infrastructure = await _infrastructureRepository.GetByIdAsync(id);
+
+            var infrastructure = await _infrastructureRepository.GetByIdAsync(id);
+            TempData["DateOfDestruction"] = date;
+            TempData["ReasonOfDestruction"] = reason;
+            TempData["CostOfDestruction"] = cost;
+            TempData["EarningsOnMaterials"] = earnings;
+            //var plots = await _plotRepository.GetAll();
+            //ViewBag.PlotId = new SelectList(plots, "PlotId", "Name");
+            return View(infrastructure);
         }
 
         // GET: InfrastructureController/Create
@@ -52,12 +64,8 @@ namespace RPPP21APP.Controllers
         // POST: InfrastructureController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateInfrastructureViewModel model)
+        public async Task<ActionResult<Infrastructure>> Create(CreateInfrastructureViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
 
             var infrastructure = new Infrastructure
             {

@@ -18,4 +18,8 @@ public partial class Infrastructure
     public virtual ICollection<HistoricalInfrastructure> HistoricalInfrastructures { get; } = new List<HistoricalInfrastructure>();
 
     public virtual Plot Plot { get; set; } = null!;
+
+
+
 }
+

@@ -18,15 +18,19 @@ namespace RPPP21APP.Controllers
     public class HistoricalInfrastructureController : Controller
     {
         private readonly IHistoricalInfrastructureRepository _historicalInfrastructureRepository;
-        public HistoricalInfrastructureController(IHistoricalInfrastructureRepository historicalInfrastructureRepository)
+        private readonly IInfrastructureRepository _infrastructureRepository;
+        public HistoricalInfrastructureController(IHistoricalInfrastructureRepository historicalInfrastructureRepository, IInfrastructureRepository infrastructureRepository)
         {
             _historicalInfrastructureRepository = historicalInfrastructureRepository;
+            _infrastructureRepository = infrastructureRepository;
         }
 
         // GET: Worker
         public async Task<IActionResult> Index()
         {
             var historical = await _historicalInfrastructureRepository.GetAll();
+            var infrastructure = await _infrastructureRepository.GetAll();
+            ViewBag.InfrastructureId = new SelectList(infrastructure, "InfrastructureId", "Name");
             return View(historical);
         }
 
@@ -97,15 +101,16 @@ namespace RPPP21APP.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             // Get the infrastructure object with the given id
-            var infrastructure = await _historicalInfrastructureRepository.GetByIdAsync(id);
-            if (infrastructure == null)
+            var historicalinfrastructure = await _historicalInfrastructureRepository.GetByIdAsync(id);
+            if (historicalinfrastructure == null)
             {
                 // If the infrastructure object is not found, return a 404 error
                 return NotFound();
             }
-
+            var infrastructure = await _infrastructureRepository.GetAll();
+            ViewBag.InfrastructureId = new SelectList(infrastructure, "InfrastructureId", "Name");
             // Pass the infrastructure object to the view
-            return View(infrastructure);
+            return View(historicalinfrastructure);
         }
 
         [HttpPost, ActionName("Delete")]

@@ -2,12 +2,15 @@
 
 @{
     ViewData["Title"] = "Index";
+
 }
 
 <h1>Infrastructure</h1>
 
+
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-controller="HistoricalInfrastructure" asp-action="Index"  class="btn btn-warning">Historical Buildings</a>
 </p>
 <div class="table-responsive">
 <table class="table table-hover table-dark">
@@ -46,7 +49,7 @@
             <td>
                         <a asp-action="Edit" asp-route-id="@item.InfrastructureId" class="btn btn-secondary mr-2">Edit</a>
                         <a asp-action="Delete" asp-route-id="@item.InfrastructureId" class="btn btn-danger">Delete</a>
-                        <a asp-controller="HistoricalInfrastructure" asp-action="Create" asp-route-id="@item.InfrastructureId">Demolish</a>
+                        <a asp-controller="HistoricalInfrastructure" asp-action="Create" asp-route-id="@item.InfrastructureId" class="btn btn-warning">Demolish</a>
             </td>
         </tr>
 }

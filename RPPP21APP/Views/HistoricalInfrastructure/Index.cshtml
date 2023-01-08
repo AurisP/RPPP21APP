@@ -5,6 +5,7 @@
 }
 
 <h1>Historical Infrastructure</h1>
+<a asp-controller="Infrastructure" asp-action="Index" class="btn btn-warning">Back to Infrastructure</a>
 <div class="table-responsive">
     <table class="table table-hover table-dark">
     <thead>
@@ -43,10 +44,11 @@
                 @Html.DisplayFor(modelItem => item.EarningsOnMaterials)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InfrastructureId)
+                @Html.DisplayFor(modelItem => item.Infrastructure.Name)
             </td>
             <td>
-                        <a asp-action="Delete" asp-route-id="@item.HistoricalInfrastructureId" class="btn btn-danger">Delete</a>
+                   <a asp-action="Delete" asp-route-id="@item.HistoricalInfrastructureId" class="btn btn-danger">Delete</a>
+                   <a asp-controller="Infrastructure" asp-action="Details" asp-route-id="@item.InfrastructureId" asp-route-date="@item.DateOfdestrcution" asp-route-reason="@item.ReasonOfDestruction" asp-route-cost="@item.CostOfDestruction" asp-route-earnings="@item.EarningsOnMaterials" class="btn btn-secondary mr-2">Details</a>
             </td>
         </tr>
 }

@@ -12,5 +12,6 @@ namespace RPPP21APP.ViewModels
         public int? EarningsOnMaterials { get; set; }
         public int InfrastructureId { get; set; }
         public virtual Infrastructure Infrastructure { get; set; }
+
     }
 }
