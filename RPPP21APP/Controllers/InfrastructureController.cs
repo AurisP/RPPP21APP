@@ -66,7 +66,6 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult<Infrastructure>> Create(CreateInfrastructureViewModel model)
         {
-
             var infrastructure = new Infrastructure
             {
                 Name = model.Name,
