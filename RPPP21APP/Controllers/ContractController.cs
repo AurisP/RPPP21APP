@@ -50,20 +50,6 @@ namespace RPPP21APP.Controllers
 
                 return View(contract);
             }
-
-            /*if (id == null || _contractRepository == null)
-            {
-                return NotFound();
-            }
-
-            var contract = await _contractRepository.GetByIdAsync(id);
-
-            if (contract == null)
-            {
-                return NotFound();
-            }
-
-            return View(contract);*/
         }
 
         // GET: Contract/Create
@@ -81,7 +67,8 @@ namespace RPPP21APP.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ValidationProblem(ModelState);
+                ViewBag.ContractorId = new SelectList(await _contractorRepository.GetAll(), "ContractorId", "Surname");
+                return View("Create");
             }
 
             var contract = new Models.Contract
@@ -126,8 +113,8 @@ namespace RPPP21APP.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Failed to edit");
-                return View("Edit", contractVM);
+                ViewBag.ContractorId = new SelectList(await _contractorRepository.GetAll(), "ContractorId", "Surname");
+                return View("Edit");
             }
 
             var contract = await _contractRepository.GetByIdAsync(id);
