@@ -16,6 +16,9 @@ builder.Services.AddScoped<IInfrastructureRepository, InfrastructureRepository>(
 builder.Services.AddScoped<IContractRepository, ContractRepository>();
 builder.Services.AddScoped<IContractorRepository, ContractorRepository>();
 builder.Services.AddScoped<IHistoricalInfrastructureRepository, HistoricalInfrastructureRepository>();
+builder.Services.AddScoped<IPassportRepository, PassportRepository>();
+builder.Services.AddScoped<IPlantRepository, PlantRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

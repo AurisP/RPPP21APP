@@ -1,0 +1,60 @@
+﻿@model IEnumerable<RPPP21APP.Models.Passport>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-hover table-dark">
+    <thead>
+        <tr>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.LatinName)
+            </th>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.Origin)
+            </th>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.MotherFarm)
+            </th>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.LinkToFloraCroatia)
+            </th>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.Plant)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td scope="row">
+                @Html.DisplayFor(modelItem => item.LatinName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Origin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MotherFarm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LinkToFloraCroatia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plant.Name)
+            </td>
+            <td>
+                        <a asp-action="Edit" asp-route-id="@item.PassportId" class="btn btn-secondary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.PassportId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

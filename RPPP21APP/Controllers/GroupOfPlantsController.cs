@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
+using RPPP21APP.Repositories;
 using RPPP21APP.Repository;
 using RPPP21APP.ViewModels;
 
@@ -17,9 +18,10 @@ namespace RPPP21APP.Controllers
             _groupOfPlantsRepository = groupOfPlantsRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var groupofplants = await _groupOfPlantsRepository.GetAll();
+            return View(groupofplants);
         }
 
         [HttpGet]
