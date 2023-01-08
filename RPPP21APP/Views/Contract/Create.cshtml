@@ -1,5 +1,6 @@
-﻿@using RPPP21APP.ViewModels;
-@model CreateContractViewModel
+﻿@*@using RPPP21APP.ViewModels;
+@model CreateContractViewModel*@
+@model RPPP21APP.Models.Contract
 
 @{
     ViewData["Title"] = "Create";
@@ -7,7 +8,7 @@
 
 <h1>Create</h1>
 
-<h4>Contract</h4>
+<h4>Contract @Html.DisplayFor(model => model.ContractId)</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -32,15 +33,17 @@
                 <label asp-for="ContractorId" class="control-label"></label>
                 <select asp-for="ContractorId" class="form-control" asp-items="ViewBag.ContractorId"></select>
             </div>
+            <p>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
+            </p>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary mr-2">Back to List</a>
 </div>
 
 @section Scripts {

@@ -9,6 +9,7 @@
 <p>
     <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
+<a asp-controller="Contract" asp-action="Index" class="btn btn-secondary mr-2">Back to Contracts</a>
 <a asp-controller="LeaseType" asp-action="Index" class="btn btn-primary">See Lease Types</a>
 
 <table class="table">
@@ -45,8 +46,8 @@
                 @Html.DisplayFor(modelItem => item.Plot.PlotId)
             </td>
             <td>
-                    <a asp-action="Edit" asp-route-id="@item.LeaseId" class="btn btn-secondary mr-2">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.LeaseId" class="btn btn-secondary mr-2">Details</a>
+                <a asp-action="Edit" asp-route-id="@item.LeaseId" class="btn btn-secondary mr-2">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.LeaseId" class="btn btn-secondary mr-2">Details</a>
                 <a asp-action="Delete" asp-route-id="@item.LeaseId" class="btn btn-danger">Delete</a>
             </td>
         </tr>

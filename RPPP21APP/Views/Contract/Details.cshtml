@@ -6,37 +6,97 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>Contract @Html.DisplayFor(model => model.ContractId)</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExpiryDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExpiryDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contractor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contractor.ContractorId)
-        </dd>
-    </dl>
+<div class="p-1 mb-2 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h2>Contract @Html.DisplayFor(model => model.ContractId)</h2>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Date)
+            </dd>
+            <dt class="col-sm-2">
+                Expiry Date
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ExpiryDate)
+            </dd>
+            <dt class="col-sm-2">
+                @*@Html.DisplayNameFor(model => model.Contractor)*@
+                Contractor Name
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Contractor.Name)
+                @Html.DisplayFor(model => model.Contractor.Surname)
+            </dd>
+            <dt class="col-sm-2">
+                Contractor ID
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Contractor.ContractorId)
+            </dd>
+        </dl>
+    </div>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ContractId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.ContractId" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary mr-2">Back to List</a>
 </div>
+<p class="bottom-two"></p>
+
+<h3>Leases</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Lease ID
+            </th>
+            <th>
+                Cost
+            </th>
+            <th>
+                Plot
+            </th>
+            <th>
+                Lease Type
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Leases)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.LeaseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Plot.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LeaseType.Name)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.LeaseId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Create" asp-route-id="model.Lease.LeaseId" class="btn btn-success">Add New</a>
+</div>
+<p class="bottom-two"></p>
+
