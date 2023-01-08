@@ -12,7 +12,10 @@ namespace RPPP21APP.Repository
         {
             _context = context;
         }
-
+        public async Task<IEnumerable<GroupOfPlant>> GetAll()
+        {
+            return await _context.GroupOfPlants.ToListAsync();
+        }
         public bool Add(GroupOfPlant groupOfPlant)
         {
             _context.Add(groupOfPlant);

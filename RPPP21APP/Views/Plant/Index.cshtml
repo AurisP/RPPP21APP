@@ -1,0 +1,43 @@
+﻿@model IEnumerable<RPPP21APP.Models.Plant>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-hover table-dark">
+    <thead>
+        <tr>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+                <th scope="col">
+                @Html.DisplayNameFor(model => model.GroupOfPlants)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                    <td scope="row">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupOfPlants.GroupOfPlantsId)
+            </td>
+            <td>
+                        <a asp-action="Edit" asp-route-id="@item.PlantId" class="btn btn-secondary mr-2">Edit</a> 
+                        <a asp-action="Details" asp-route-id="@item.PlantId" class="btn btn-secondary mr-2">Details</a> 
+                        <a asp-action="Delete" asp-route-id="@item.PlantId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

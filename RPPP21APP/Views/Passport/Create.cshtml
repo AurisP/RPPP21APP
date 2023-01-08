@@ -1,0 +1,53 @@
+﻿@model RPPP21APP.Models.Passport
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Passport</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LatinName" class="control-label"></label>
+                <input asp-for="LatinName" class="form-control" />
+                <span asp-validation-for="LatinName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Origin" class="control-label"></label>
+                <input asp-for="Origin" class="form-control" />
+                <span asp-validation-for="Origin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MotherFarm" class="control-label"></label>
+                <input asp-for="MotherFarm" class="form-control" />
+                <span asp-validation-for="MotherFarm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LinkToFloraCroatia" class="control-label"></label>
+                <input asp-for="LinkToFloraCroatia" class="form-control" />
+                <span asp-validation-for="LinkToFloraCroatia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlantId" class="control-label"></label>
+                <select asp-for="PlantId" class ="form-control" asp-items="ViewBag.PlantId"></select>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
