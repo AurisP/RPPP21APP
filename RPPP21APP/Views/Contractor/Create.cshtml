@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>Contractor</h4>
+<h4>Contractor @Html.DisplayFor(model => model.ContractorId)</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,15 +37,17 @@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
+            <p>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-success"/>
             </div>
+            </p>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary mr-2">Back to List</a>
 </div>
 
 @section Scripts {

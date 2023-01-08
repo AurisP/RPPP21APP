@@ -37,7 +37,21 @@ namespace RPPP21APP.Controllers
         // GET: Contract/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _contractRepository == null)
+            using (var context = new ApplicationDbContext())
+            {
+                var contract = await context.Contracts
+                    .Include(i => i.Contractor)
+                    .Include(i => i.Leases)
+                        .ThenInclude(i => i.LeaseType)
+                    .Include(i => i.Leases)
+                        .ThenInclude(i => i.Plot)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.ContractId == id);
+
+                return View(contract);
+            }
+
+            /*if (id == null || _contractRepository == null)
             {
                 return NotFound();
             }
@@ -49,7 +63,7 @@ namespace RPPP21APP.Controllers
                 return NotFound();
             }
 
-            return View(contract);
+            return View(contract);*/
         }
 
         // GET: Contract/Create
@@ -117,10 +131,13 @@ namespace RPPP21APP.Controllers
                 return NotFound();
             }
 
+            //System.Console.WriteLine(contract.ContractorId);
             contract.Date = (DateTime)contractVM.Date;
             contract.ExpiryDate = (DateTime)contractVM.ExpiryDate;
             contract.Description = contractVM.Description;
             contract.ContractorId = contractVM.ContractorId;
+            //System.Console.WriteLine(contractVM.ContractorId);
+            //System.Console.WriteLine(contract.ContractorId);
 
             try
             {
