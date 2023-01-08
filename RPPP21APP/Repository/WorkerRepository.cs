@@ -32,7 +32,15 @@ namespace RPPP21APP.Repositories
         {
             return await _context.Workers.AsNoTracking().FirstOrDefaultAsync(w => w.WorkerId == id);
         }
+        public async Task<int> GetCountAsync()
+        {
+            return await _context.Workers.CountAsync();
+        }
 
+        public async Task<IEnumerable<Worker>> GetSliceAsync(int offset, int size)
+        {
+            return await _context.Workers.Skip(offset).Take(size).ToListAsync();
+        }
         public bool Add(Worker worker)
         {
             _context.Workers.Add(worker);

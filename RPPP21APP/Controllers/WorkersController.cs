@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic;
 using NuGet.Protocol.Core.Types;
 using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
@@ -9,26 +13,69 @@ using RPPP21APP.Repositories;
 using RPPP21APP.Repository;
 using RPPP21APP.ViewModels;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Net;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace RPPP21APP.Controllers
 {
     public class WorkersController : Controller
     {
         
-
         private readonly IWorkerRepository _workerRepository;
+        private readonly AppSettings _appSettings;
 
-        public WorkersController(IWorkerRepository workerRepository)
+        public WorkersController(IWorkerRepository workerRepository, IOptionsSnapshot<AppSettings> options)
         {
             _workerRepository = workerRepository;
+            _appSettings = options.Value;
         }
 
         // GET: Worker
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int sort = 1, bool ascending = true)
         {
-            var workers = await _workerRepository.GetAll();
-            return View(workers);
+            int pagesize = _appSettings.PageSize;
+
+            int count = await _workerRepository.GetCountAsync();
+
+            //if (count == 0)
+            //{
+            //    string message = "There is no worker in the database";
+            //    logger.LogInformation(message);
+            //    TempData[Constants.Message] = "message";
+            //    TempData[Constants.ErrorOccurred] = false;
+            //    return RedirectToAction(nameof(Create));
+            //}
+
+            var pagingInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                Sort = sort,
+                Ascending = ascending,
+                ItemsPerPage = pagesize,
+                TotalItems = count
+            };
+            if (page < 1 || page > pagingInfo.TotalPages)
+            {
+                return RedirectToAction(nameof(Index), new { page = 1, sort, ascending });
+            }         
+
+            var workers = await _workerRepository.GetSliceAsync((page - 1) * pagesize, pagesize);
+
+            var workerViewModel = new IndexWorkerViewModel
+            {
+                Workers = workers,
+                Page = page,
+                PageSize = pagesize,
+                TotalWorkers = count,
+                TotalPages = (int)Math.Ceiling(count / (double)pagesize),
+                
+            };
+
+            return View(workerViewModel);
+
+            //var workers = await _workerRepository.GetAll();
+            //return View(workers);
         }
 
         // GET: Worker/Details/5

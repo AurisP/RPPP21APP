@@ -1,17 +1,50 @@
-﻿@model IEnumerable<RPPP21APP.Models.Worker>
+﻿@using RPPP21APP.ViewModels;
+@model IndexWorkerViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
+@{
+    bool isAuthenticated = User.Identity?.IsAuthenticated == true;
+
+    int resultStart = ((Model.Page - 1) * Model.PageSize) + 1;
+    int resultEnd = Math.Min(resultStart + Model.PageSize - 1, Model.TotalWorkers);
+
+    bool isValidPage = resultStart <= Model.TotalWorkers;
+
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
 <h1>Workers</h1>
+
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            @if (isValidPage)
+            {
+                <a type="button" class="btn btn-sm btn-primary @prevDisabled"
+               asp-action="Index" asp-route-page="@(Model.Page - 1)">
+                    Prev
+                </a>
+                <a type="button" class="btn btn-sm btn-primary @nextDisabled"
+               asp-action="Index" asp-route-page="@(Model.Page + 1)">
+                    Next
+                </a>
+                <span class="text-muted text-small">Results @resultStart - @resultEnd of @Model.TotalWorkers</span>
+            }
+    </div>
+</div>
+
 <div class="table-responsive">
 <table class="table table-hover table-dark">
-    <thead>
+ @*   <thead>
         <tr>
             <th scope="col">
                 @Html.DisplayNameFor(model => model.Name)
@@ -33,9 +66,9 @@
             </th>
             <th scope="col"></th>
         </tr>
-    </thead>
+    </thead>*@
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Workers) {
         <tr>
             <td scope="row">
                 @Html.DisplayFor(modelItem => item.Name)
