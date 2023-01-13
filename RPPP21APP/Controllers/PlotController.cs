@@ -124,6 +124,8 @@ namespace RPPP21APP.Controllers
                         .ThenInclude(x => x.GroupOfPlants)
                             .ThenInclude(x => x.Plants)
 
+                    .Include(x => x.WeatherConditions)
+
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.PlotId == id);
 

@@ -5,11 +5,13 @@
 @{
 }
 
-<div class="p-5 mb-4 bg-light rounded-3">
+<div class="section">
       <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold">@Model.Name</h1>
         <p class="col-md-8 fs-4"> Coordinates: @Model.Coordinates</p>
         <p class="col-md-8 fs-4"> Area: @Model.Area</p>
+        <p class="col-md-8 fs-4"> Sun level: @Model.WeatherConditions.SunLevel</p>
+        <p class="col-md-8 fs-4"> Water level: @Model.WeatherConditions.WaterLevel</p>
        </div>
 </div>
 <h2>Infrastructure</h2>
@@ -58,10 +60,12 @@
         <thead>
             <tr>
                 <th scope="col">
+                
                     @Html.DisplayNameFor(model => model.GroupsOnPlots.FirstOrDefault().GroupOfPlants.FirstOrDefault().PlantType.Type)
                 </th>
                 <th scope="col">
                     @Html.DisplayNameFor(model => model.GroupsOnPlots.FirstOrDefault().GroupOfPlants.FirstOrDefault().Plants.FirstOrDefault().Name)
+                <th scope="col">
                 </th>
             </tr>
         </thead>
@@ -80,8 +84,9 @@
                                 @Html.DisplayFor(modelItem => item3.Name)
                             </td>                         
                            <td>
-                                <a asp-controller="GroupOfPlants" asp-action="Detail" asp-route-id="@item.PlotId, @item2.PlantType.PlantTypeId" class="btn btn-secondary mr-2">Detail</a>
-                                @*<a asp-controller="Infrastructure" asp-action="Delete" asp-route-id="@item.InfrastructureId" class="btn btn-danger">Delete</a>*@
+                            
+                                <a asp-controller="Plant" asp-action="Detail" asp-route-id="@item.PlotId, @item3.PlantId" class="btn btn-secondary mr-2">Detail</a>
+                                <a asp-controller="GroupOfPlants" asp-action="Delete" asp-route-id="@item.PlotId" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                     }

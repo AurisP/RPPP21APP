@@ -18,4 +18,6 @@ public partial class Passport
     public int PlantId { get; set; }
 
     public virtual Plant Plant { get; set; } = null!;
+
+    public virtual ICollection<Plant> Plants { get; } = new List<Plant>();
 }

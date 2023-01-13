@@ -497,6 +497,9 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.GroupOfPlants).WithMany(p => p.Plants)
                 .HasForeignKey(d => d.GroupOfPlantsId)
                 .HasConstraintName("Species_GroupOfPlants_GroupOFPlantsID_fk");
+            entity.HasOne(d => d.Passport).WithMany(p => p.Plants)
+                .HasForeignKey(d => d.PassportId)
+                .HasConstraintName("Passport_fk");
         });
 
         modelBuilder.Entity<PlantType>(entity =>
