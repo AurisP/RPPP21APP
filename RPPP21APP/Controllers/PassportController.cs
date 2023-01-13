@@ -28,7 +28,7 @@ namespace RPPP21APP.Controllers
         // GET: PassportController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var passport = await _passportRepository.GetDetailed(id);
+            var passport = await _passportRepository.GetByIdAsyncNoTrack(id);
             if (passport == null)
             {
                 return View();

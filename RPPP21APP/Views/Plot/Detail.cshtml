@@ -5,15 +5,39 @@
 @{
 }
 
-<div class="section">
-      <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">@Model.Name</h1>
-        <p class="col-md-8 fs-4"> Coordinates: @Model.Coordinates</p>
-        <p class="col-md-8 fs-4"> Area: @Model.Area</p>
-        <p class="col-md-8 fs-4"> Sun level: @Model.WeatherConditions.SunLevel</p>
-        <p class="col-md-8 fs-4"> Water level: @Model.WeatherConditions.WaterLevel</p>
-       </div>
+<div class="p-1 mb-2 rounded-3">
+    <div class="container-fluid py-5">
+        <h2>Contract @Html.DisplayFor(model => model.Name)</h2>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Coordinates)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Coordinates)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Area)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Area)
+            </dd>
+            <dt class="col-sm-2">
+                Sun level
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.WeatherConditions.SunLevel)
+            </dd>
+            <dt class="col-sm-2">               
+                Water level
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.WeatherConditions.WaterLevel)           
+            </dd>          
+        </dl>
+    </div>
 </div>
+
 <h2>Infrastructure</h2>
 <div class="table-responsive">
     <table class="table table-hover table-dark">
@@ -85,7 +109,7 @@
                             </td>                         
                            <td>
                             
-                                <a asp-controller="Plant" asp-action="Detail" asp-route-id="@item.PlotId, @item3.PlantId" class="btn btn-secondary mr-2">Detail</a>
+                                <a asp-controller="Passport" asp-action="Details" asp-route-id="@item3.PassportId" class="btn btn-secondary mr-2">Passport</a>
                                 <a asp-controller="GroupOfPlants" asp-action="Delete" asp-route-id="@item.PlotId" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
