@@ -477,8 +477,8 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Origin).HasColumnType("text");
             entity.Property(e => e.PlantId).HasColumnName("PlantID");
 
-            entity.HasOne(d => d.Plant).WithMany(p => p.Passports)
-                .HasForeignKey(d => d.PlantId)
+            entity.HasOne(d => d.Plant).WithOne(p => p.Passport)
+                .HasForeignKey<Plant>(d => d.PlantId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Passport_Species_SpeciesID_fk");
         });
@@ -497,8 +497,8 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.GroupOfPlants).WithMany(p => p.Plants)
                 .HasForeignKey(d => d.GroupOfPlantsId)
                 .HasConstraintName("Species_GroupOfPlants_GroupOFPlantsID_fk");
-            entity.HasOne(d => d.Passport).WithMany(p => p.Plants)
-                .HasForeignKey(d => d.PassportId)
+            entity.HasOne(d => d.Passport).WithOne(p => p.Plant)
+                .HasForeignKey<Passport>(d => d.PassportId)
                 .HasConstraintName("Passport_fk");
         });
 

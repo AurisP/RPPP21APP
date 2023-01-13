@@ -15,9 +15,9 @@ public partial class Passport
 
     public string? LinkToFloraCroatia { get; set; }
 
-    public int PlantId { get; set; }
+    public int? PlantId { get; set; }
 
-    public virtual Plant Plant { get; set; } = null!;
+    public virtual Plant? Plant { get; set; }
 
-    public virtual ICollection<Plant> Plants { get; } = new List<Plant>();
+   //public virtual ICollection<Plant> Plants { get; } = new List<Plant>();
 }
