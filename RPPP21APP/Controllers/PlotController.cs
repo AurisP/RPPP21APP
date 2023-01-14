@@ -23,12 +23,9 @@ namespace RPPP21APP.Controllers
             _weatherConditionsRepository = weatherConditionsRepository;
         }
         public async Task<IActionResult> Index()
-        {
-            using (var context = new ApplicationDbContext())
-            {
+        {          
                 var model = await _plotRepository.GetAll();
-                return View(model);
-            }
+                return View(model);            
         }
 
         [HttpGet]

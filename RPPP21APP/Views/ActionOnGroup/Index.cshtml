@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ActionOnGroup>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Actions</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuantityIfHarvest)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Worker.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item != null)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.QuantityIfHarvest)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Worker.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ActionOnGroupId" class="btn btn-secondary mr-2">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.ActionOnGroupId" class="btn btn-secondary mr-2">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.ActionOnGroupId" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
