@@ -1,6 +1,8 @@
 ﻿@using RPPP21APP.ViewModels;
-
 @model CreateActionOnGroupViewModel
+
+System.ComponentModel.DataAnnotations
+[Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
 
 @{
     ViewData["Title"] = "Create";
@@ -20,21 +22,32 @@
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="QuantityIfHarvest" class="control-label"></label>
+                <label asp-for="QuantityIfHarvest" class="control-label">Quantity when action is harvest</label>
                 <input asp-for="QuantityIfHarvest" class="form-control" />
                 <span asp-validation-for="QuantityIfHarvest" class="text-danger"></span>
             </div>
-           @* <div class="form-group">
-                <label asp-for="WorkerId" class="control-label"></label>
-                <input asp-for="WorkerId" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
-                <label asp-for="WorkerId" class="control-label"></label>
+                <label asp-for="ActionM.Description" class="control-label">Action description</label>
+                <input asp-for="ActionM.Description" class="form-control" />
+                <span asp-validation-for="ActionM.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkerId" class="control-label">Worker name</label>
                 <select asp-for="WorkerId" class="form-control" asp-items="@(new SelectList(Model.Workers, "WorkerId","Name"))" class="form-control form-control">
             <option>Please select one</option>
             </select>
             </div>
+            <div class="form-group">
+                <label asp-for="MaterialId" class="control-label">Material used</label>
+                <select asp-for="MaterialId" class="form-control" asp-items="@(new SelectList(Model.Materials, "MaterialId","Name"))" class="form-control form-control">
+                    <option>Please select one</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="materialUse.Amount" class="control-label">Amount of material</label>
+                <input asp-for="materialUse.Amount" class="form-control" />
+                <span asp-validation-for="materialUse.Amount" class="text-danger"></span>
+            </div>            
             <p>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-success" />

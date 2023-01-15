@@ -584,7 +584,6 @@ public partial class ApplicationDbContext : DbContext
 
             entity.Property(e => e.StorageId).HasColumnName("StorageID");
             entity.Property(e => e.Place).HasColumnType("text");
-            entity.Property(e => e.Plant).HasColumnType("text");
             entity.Property(e => e.PlotId).HasColumnName("PlotID");
             entity.Property(e => e.TimeOfHarvest).HasColumnType("date");
 
@@ -592,6 +591,12 @@ public partial class ApplicationDbContext : DbContext
                 .HasForeignKey(d => d.PlotId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Storage_Plot_PlotID_fk");
+
+            entity.HasOne(d => d.PlantType).WithMany(p => p.Storages)
+                .HasForeignKey(d => d.PlantTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("PlantType_fk");
+
         });
 
         modelBuilder.Entity<WeatherCondition>(entity =>
