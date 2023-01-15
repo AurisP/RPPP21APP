@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RPPP21APP.Interfaces;
+using RPPP21APP.Models;
+using RPPP21APP.Repositories;
+using RPPP21APP.ViewModels;
 
 namespace RPPP21APP.Controllers
 {
@@ -8,11 +12,12 @@ namespace RPPP21APP.Controllers
     {
 
         private readonly IPlantTypeRepository _plantTypeRepository;
-        
+        private readonly IPlantBiologyRepository _plantBiologyRepository;
 
-        public PlantTypeController(IPlantTypeRepository plantTypeRepository)
+        public PlantTypeController(IPlantTypeRepository plantTypeRepository, IPlantBiologyRepository plantBiologyRepository)
         {
-            _plantTypeRepository= plantTypeRepository;
+            _plantTypeRepository = plantTypeRepository;
+            _plantBiologyRepository = plantBiologyRepository;
         }
         // GET: PlantTypeController
         public async Task<IActionResult> Index()
@@ -28,19 +33,39 @@ namespace RPPP21APP.Controllers
         }
 
         // GET: PlantTypeController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> CreateAsync()
         {
+            ViewBag.PlantBiologyId = new SelectList(await _plantBiologyRepository.GetAll(), "PlantBiologyId", "Name");
             return View();
         }
 
         // POST: PlantTypeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult<PlantType>> Create(CreatePlantTypeViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.PlantBiologyId = new SelectList(await _plantBiologyRepository.GetAll(), "PlantBiologyId", "Name");
+                return View("Create");
+            }
+
+            var type = new PlantType
+            {
+                Type = model.Type,
+                CaloriesPer100g= model.CaloriesPer100g,
+                FatPer100g= model.FatPer100g,
+                ProteinPer100g= model.ProteinPer100g,
+                FiberPer100g= model.FiberPer100g,
+                CarbsPer100g= model.CarbsPer100g,
+                Vitamins = model.Vitamins,
+                PlantBiologyId = model.PlantBiologyId
+
+            };
             try
             {
-                return RedirectToAction(nameof(Index));
+                _plantTypeRepository.Add(type);
+                return RedirectToAction("Index");
             }
             catch
             {

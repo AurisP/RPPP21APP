@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-hover table-dark">
     <thead>
         <tr>
             <th>
@@ -32,6 +32,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Vitamins)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlantBiologyId)
             </th>
             <th></th>
         </tr>
@@ -60,6 +63,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Vitamins)
             </td>
+               <td>
+                    @Html.DisplayFor(modelItem => item.PlantBiologyId)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PlantTypeId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PlantTypeId">Details</a> |
