@@ -74,6 +74,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Worker> Workers { get; set; }
 
+    public virtual DbSet<PlantBiology> PlantBiologies { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -502,6 +504,18 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("Passport_fk");
         });
 
+        modelBuilder.Entity<PlantBiology>(entity =>
+        {
+            entity.HasKey(e => e.PlantBiologyId).HasName("PlantBiology_pk");
+
+            entity.ToTable("PlantBiology", "RPPP21");
+
+            entity.HasIndex(e => e.PlantBiologyId, "PlantBiology_PlantBiologyID_uindex").IsUnique();
+
+            entity.Property(e => e.PlantBiologyId).HasColumnName("PlantBiologyID");
+            entity.Property(e => e.Name).HasColumnType("text");
+        });
+
         modelBuilder.Entity<PlantType>(entity =>
         {
             entity.HasKey(e => e.PlantTypeId).HasName("PlantType_pk");
@@ -513,6 +527,11 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.PlantTypeId).HasColumnName("PlantTypeID");
             entity.Property(e => e.Type).HasColumnType("text");
             entity.Property(e => e.Vitamins).HasColumnType("text");
+
+            entity.HasOne(d => d.PlantBiology).WithMany(p => p.PlantTypes)
+                .HasForeignKey(d => d.PlantBiologyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("PlantBiology_fk");
         });
 
         modelBuilder.Entity<Plot>(entity =>
