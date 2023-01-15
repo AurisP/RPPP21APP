@@ -64,7 +64,7 @@
                 @Html.DisplayFor(modelItem => item.Vitamins)
             </td>
                <td>
-                    @Html.DisplayFor(modelItem => item.PlantBiologyId)
+                    @Html.DisplayFor(modelItem => item.PlantBiology.Name)
                 </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PlantTypeId">Edit</a> |
