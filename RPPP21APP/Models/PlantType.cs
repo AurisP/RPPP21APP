@@ -21,7 +21,11 @@ public partial class PlantType
 
     public string? Vitamins { get; set; }
 
+    public int? PlantBiologyId { get; set; }
+
     public virtual ICollection<GroupOfPlant> GroupOfPlants { get; } = new List<GroupOfPlant>();
 
     public virtual ICollection<Storage> Storages { get; } = new List<Storage>();
+
+    public PlantBiology? PlantBiology { get; set; }
 }
