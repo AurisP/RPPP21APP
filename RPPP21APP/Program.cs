@@ -24,6 +24,7 @@ builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 builder.Services.AddScoped<IMaterialUseRepository, MaterialUseRepository>();
 builder.Services.AddScoped<IPlantBiologyRepository, PlantBiologyRepository>();
 builder.Services.AddScoped<IStorageRepository, StorageRepository>();
+builder.Services.AddScoped<IActionRepository, ActionRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

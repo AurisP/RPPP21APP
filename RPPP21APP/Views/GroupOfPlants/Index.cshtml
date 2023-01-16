@@ -4,38 +4,42 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Groups</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="GroupOfPlants" asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.GroupsOnPlot)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PlantType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupsOnPlot.GroupsOnPlotId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlantType.PlantTypeId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GroupOfPlantsId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GroupOfPlantsId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GroupOfPlantsId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.GroupsOnPlot.Plot.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlantType)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupsOnPlot.Plot.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlantType.PlantTypeId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.GroupOfPlantsId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.GroupOfPlantsId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.GroupOfPlantsId">Delete</a>
+                    <a asp-controller="ActionOnGroup" asp-action="Index" asp-route-id="@item.GroupOfPlantsId" class="btn btn-secondary mr-2">Actions</a>
+                    @*<a asp-controller="Plot" asp-action="Edit" asp-route-id="@item.PlotId" class="btn btn-danger">Edit</a>*@
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</div>

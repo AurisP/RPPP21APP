@@ -1,30 +1,54 @@
 ﻿@using RPPP21APP.ViewModels;
 @model CreateGroupViewModel
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<form method="post" asp-action="Create" enctype="multipart/form-data">
-    @Html.HiddenFor(i => i.GroupsOnPlot.PlotId);
-    <div class="form-group" style="margin-top:90px">
-        <label asp-for="GroupsOnPlot.PlantTime">Plant time</label>
-        <input asp-for="GroupsOnPlot.PlantTime" class="form-control" aria-describedby="emailHelp" placeholder="Name">
-        <span asp-validation-for="GroupsOnPlot.PlantTime" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="GroupsOnPlot.Quantity">Quantity</label>
-        <input asp-for="GroupsOnPlot.Quantity" class="form-control" aria-describedby="emailHelp" placeholder="Quantity">
-        <span asp-validation-for="GroupsOnPlot.Quantity" class="text-danger"></span>
-    </div>  
-    <div class="form group">
-        <label asp-for="PlantTypeId">Plant Type</label>
-        <select asp-for="PlantTypeId" asp-items="@(new SelectList(Model.PlantTypeList, "PlantTypeId","Type"))" class="form-control form-control">
-            <option>Please select one</option>
-        </select>
-        <span asp-validation-for="PlantTypeList" class="text-danger"></span>
 
+<h1>Create</h1>
+
+<h4>Group</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+           @* <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+            <div class="form-group">
+                <label asp-for="PlotId" class="control-label">Plot</label>
+                <select asp-for="PlotId" class="form-control" asp-items="@(new SelectList(Model.Plots,"PlotId","Name"))" class="form-control form-control">
+            <option>Please select one</option>
+                <span asp-validation-for="Plots" class="text-danger"></span>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlantTypeId" class="control-label">Plant Type</label>
+                <select asp-for="PlantTypeId" class="form-control" asp-items="@(new SelectList(Model.PlantTypes,"PlantTypeId","Type"))" class="form-control form-control">
+                <option>Please select one</option>
+                <span asp-validation-for="PlantTypes" class="text-danger"></span>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupsOnPlot.PlantTime" class="control-label">Plant time</label>
+                <input asp-for="GroupsOnPlot.PlantTime" class="form-control" />
+                <span asp-validation-for="GroupsOnPlot.PlantTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupsOnPlot.Quantity" class="control-label">Quantity</label>
+                <input asp-for="GroupsOnPlot.Quantity" class="form-control" />
+                <span asp-validation-for="GroupsOnPlot.Quantity" class="text-danger"></span>
+            </div>           
+            <p>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </p>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary mr-2">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

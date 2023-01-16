@@ -12,10 +12,15 @@ namespace RPPP21APP.Controllers
     public class GroupOfPlantsController : Controller
     {
         private readonly IGroupOfPlants _groupOfPlantsRepository;
+        private readonly IPlotRepository _plotRepository;
+        private readonly IPlantTypeRepository _plantTypeRepository;
 
-        public GroupOfPlantsController(IGroupOfPlants groupOfPlantsRepository)
+        public GroupOfPlantsController(IGroupOfPlants groupOfPlantsRepository, IPlotRepository plotRepository
+            ,IPlantTypeRepository plantTypeRepository)
         {
             _groupOfPlantsRepository = groupOfPlantsRepository;
+            _plotRepository = plotRepository;
+            _plantTypeRepository = plantTypeRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -36,23 +41,22 @@ namespace RPPP21APP.Controllers
         }
 
 
-        [HttpGet]
-        [Route("Plot/{PlotId}/Group/Create")]
-        public async Task<IActionResult> Create(int plotId)
+        [HttpGet]       
+        public async Task<IActionResult> Create()
         {
             CreateGroupViewModel groupVM = new CreateGroupViewModel();
-            groupVM.GroupsOnPlot.PlotId = plotId;
-            groupVM.PlantTypeList = await _groupOfPlantsRepository.GetAvailableTypes(plotId);
+            //groupVM.GroupsOnPlot.PlotId = plotId;
+            groupVM.Plots = await _plotRepository.GetAll();
+            groupVM.PlantTypes = await _plantTypeRepository.GetAll();
             return View(groupVM);
         }
 
-        [HttpPost]
-        [Route("Plot/{PlotId}/Group/Create")]
+        [HttpPost]        
         public async Task<IActionResult> Create(CreateGroupViewModel groupVM)
         {
             var groupOnPlot = new GroupsOnPlot
             {
-                PlotId = groupVM.GroupsOnPlot.PlotId,
+                PlotId = groupVM.PlotId,
                 PlantTime = groupVM.GroupsOnPlot.PlantTime,
                 Quantity = groupVM.GroupsOnPlot.Quantity
             };
@@ -63,7 +67,8 @@ namespace RPPP21APP.Controllers
                 GroupsOnPlot = groupOnPlot
             };
 
-            _groupOfPlantsRepository.Add(groupOfPlants);
+            if (!(_groupOfPlantsRepository.Add(groupOfPlants)))
+                return View("Error");
             return RedirectToAction("Index");
         }
     }

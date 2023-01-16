@@ -16,6 +16,10 @@ namespace RPPP21APP.Repository
         {
             return await _context.GroupOfPlants
                 .Include(i => i.PlantType)
+                .Include(i => i.GroupsOnPlot)
+                    .ThenInclude(i => i.Plot)
+                .Include(i => i.ActionOnGroups)
+                .AsNoTracking()
                 .ToListAsync();
         }
         public bool Add(GroupOfPlant groupOfPlant)

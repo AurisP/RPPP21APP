@@ -2,6 +2,7 @@
 using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RPPP21APP.Repository
 {
@@ -52,7 +53,8 @@ namespace RPPP21APP.Repository
 
         public bool Update(Material material)
         {
-            throw new NotImplementedException();
+            _context.Materials.Update(material);
+            return Save();
         }
     }
 }
