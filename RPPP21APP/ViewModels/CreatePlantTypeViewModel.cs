@@ -14,6 +14,8 @@ namespace RPPP21APP.ViewModels
         public double? FiberPer100g { get; set; }
         public double? CarbsPer100g { get; set; }
         public string? Vitamins { get; set; }
+
+        public int PlantBiologyId { get; set; }
         public virtual ICollection<GroupOfPlant>? GroupOfPlants { get; set; }
     }
 }
