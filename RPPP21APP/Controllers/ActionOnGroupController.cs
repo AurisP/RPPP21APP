@@ -32,6 +32,7 @@ namespace RPPP21APP.Controllers
             _context = context;
         }
 
+        //id is groupofplantsid
         [Route("ActionOnGroup/{id}")]
         public async Task<IActionResult> Index(int id)
         {
@@ -128,6 +129,16 @@ namespace RPPP21APP.Controllers
 
 
             return RedirectToAction("index");
+        }
+
+        [HttpGet]
+        [Route("ActionOnGroup/Details/{Id}")]
+        public async Task<IActionResult> Detail(int id)
+        {
+                var actionOnGroup = await _actionOnGroupRepository.GetByIdAsyncNoTrack(id);
+
+                return View(actionOnGroup);
+            
         }
     }
 }

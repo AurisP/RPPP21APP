@@ -19,7 +19,10 @@
                 <th>
                     @Html.DisplayNameFor(model => model.PlantType)
                 </th>
-                <th></th>
+                
+                <th>
+                    @Html.DisplayName("Actions")
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -29,15 +32,23 @@
                     @Html.DisplayFor(modelItem => item.GroupsOnPlot.Plot.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PlantType.PlantTypeId)
+                    @Html.DisplayFor(modelItem => item.PlantType.Type)
                 </td>
+                <td> 
+                    @{String actions = " ";}
+                    @{int max = Math.Min(3, item.ActionOnGroups.Count);}
+                    @foreach (var item2 in item.ActionOnGroups.Take(max))
+                    {
+                            @(actions += item2.Action.Description + "\t")
+                    }            
+                     @Html.DisplayText(actions)
+                 </td> 
+                 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.GroupOfPlantsId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.GroupOfPlantsId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.GroupOfPlantsId">Delete</a>
                     <a asp-controller="ActionOnGroup" asp-action="Index" asp-route-id="@item.GroupOfPlantsId" class="btn btn-secondary mr-2">Actions</a>
                     @*<a asp-controller="Plot" asp-action="Edit" asp-route-id="@item.PlotId" class="btn btn-danger">Edit</a>*@
                 </td>
+
             </tr>
     }
         </tbody>

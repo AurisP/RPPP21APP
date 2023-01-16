@@ -19,6 +19,7 @@ namespace RPPP21APP.Repository
                 .Include(i => i.GroupsOnPlot)
                     .ThenInclude(i => i.Plot)
                 .Include(i => i.ActionOnGroups)
+                    .ThenInclude(i => i.Action)
                 .AsNoTracking()
                 .ToListAsync();
         }

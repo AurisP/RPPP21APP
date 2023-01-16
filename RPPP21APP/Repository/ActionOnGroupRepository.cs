@@ -36,9 +36,16 @@ namespace RPPP21APP.Repository
             throw new NotImplementedException();
         }
 
-        public Task<ActionOnGroup> GetByIdAsyncNoTrack(int id)
+        public async Task<ActionOnGroup> GetByIdAsyncNoTrack(int id)
         {
-            throw new NotImplementedException();
+            return await _context.ActionOnGroups
+                .Include(i => i.Worker)
+                .Include(i => i.Action)
+                .Include(i => i.MaterialUse)
+                    .ThenInclude(i => i.Material)
+                .Include(i => i.Storage)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(i => i.ActionOnGroupId == id);
         }
 
         public async Task<IEnumerable<ActionOnGroup>> GetListByIdAsync(int id)

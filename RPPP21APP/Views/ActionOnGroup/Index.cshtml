@@ -7,7 +7,7 @@
 <h1>Actions</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-success">Create New</a>
+    <a asp-action="Create" asp-route-id="@Context.Request.RouteValues["id"]" class="btn btn-success">Create New</a>
 </p>
 
 <div class="table-responsive">
@@ -41,6 +41,7 @@
                         <td>
                             @Html.DisplayFor(model => item.Worker.Name)
                         </td>
+                       
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.ActionOnGroupId" class="btn btn-secondary mr-2">Edit</a>
                             <a asp-action="Details" asp-route-id="@item.ActionOnGroupId" class="btn btn-secondary mr-2">Details</a>
