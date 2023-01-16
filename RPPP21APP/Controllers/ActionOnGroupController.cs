@@ -15,16 +15,18 @@ namespace RPPP21APP.Controllers
         private readonly IWorkerRepository _workerRepository;
         private readonly IMaterialRepository _materialRepository;
         private readonly IMaterialUseRepository _materialUseRepository;
+        private readonly IStorageRepository _storageRepository;
         private readonly ApplicationDbContext _context;
 
         public ActionOnGroupController(IActionOnGroupRepository actionOnGroupRepository,
             IWorkerRepository workerRepository, IMaterialRepository materialRepository, IMaterialUseRepository materialUseRepository,
-            ApplicationDbContext context)
+            IStorageRepository storageRepository, ApplicationDbContext context)
         {
             _actionOnGroupRepository = actionOnGroupRepository;
             _workerRepository = workerRepository;
             _materialRepository = materialRepository;
             _materialUseRepository = materialUseRepository;
+            _storageRepository = storageRepository;
             _context = context;
         }
         public async Task<IActionResult> Index(int id)
@@ -34,18 +36,20 @@ namespace RPPP21APP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        [Route("ActionOnGroup/Create/{id}")]
+        public async Task<IActionResult> Create(int id)
         {
             CreateActionOnGroupViewModel actionVM = new CreateActionOnGroupViewModel()
             {
                 Workers = await _workerRepository.GetAll(),
-                Materials = await _materialRepository.GetAll()
+                Materials = await _materialRepository.GetAll(),
+                GroupOfPlantsId = id
             };           
             return View(actionVM);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]       
         public async Task<IActionResult> Create(CreateActionOnGroupViewModel actionVM)
         {
             if (!ModelState.IsValid)
@@ -76,18 +80,23 @@ namespace RPPP21APP.Controllers
 
             if (actionVM.QuantityIfHarvest > 0)
             {
-                var storage = new Storage()
-                {
-                    TimeOfHarvest = actionVM.Time,
-                    Amount = actionVM.QuantityIfHarvest,
+                //Gets PlotId for Storage model
+                GroupOfPlant? groupbuf = await _context.GroupOfPlants
+                    .Include(i => i.GroupsOnPlot)
+                    .FirstOrDefaultAsync(i => i.GroupOfPlantsId == actionVM.GroupOfPlantsId);
 
-                    //PlotId = _context.ActionOnGroups
-                    //.Include(i => i.GroupOfPlants)
-                    //    .ThenInclude(i => i.GroupsOnPlot)
-                    //.AsNoTracking()
-                    //.FirstOrDefaultAsync(i => i.Plotid)
-                    
-                };
+                if (groupbuf == null)
+                    return View("Error");
+
+                var storage = new Storage();
+                storage.TimeOfHarvest = actionVM.Time;
+                storage.Amount = actionVM.QuantityIfHarvest;
+                storage.PlotId = groupbuf.GroupsOnPlot.PlotId;
+                storage.Place = actionVM.Storage.Place;
+                
+                if (!(_storageRepository.Add(storage)))
+                    return View("Error");
+                actionVM.StorageId = storage.StorageId;
             }
 
             var action = new ActionOnGroup()
@@ -98,6 +107,7 @@ namespace RPPP21APP.Controllers
                 ActionId= actionVM.ActionId,
                 MaterialUseId= materialUseId,
                 StorageId = actionVM.StorageId,
+                GroupOfPlantsId = actionVM.GroupOfPlantsId,
             };
             _actionOnGroupRepository.Add(action);
             return View();

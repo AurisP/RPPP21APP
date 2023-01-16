@@ -6,6 +6,7 @@ using RPPP21APP.Models;
 using RPPP21APP.Repositories;
 using RPPP21APP.Repository;
 using RPPP21APP.ViewModels;
+using System.Collections.Generic;
 
 namespace RPPP21APP.Controllers
 {
@@ -13,11 +14,13 @@ namespace RPPP21APP.Controllers
     {
         private readonly IPlantRepository _plantRepository;
         private readonly IGroupOfPlants _groupOfPlants;
+        private readonly IPlantTypeRepository _plantTypeRepository;
 
-        public PlantController(IPlantRepository plantRepository, IGroupOfPlants groupOfPlants)
+        public PlantController(IPlantRepository plantRepository, IGroupOfPlants groupOfPlants, IPlantTypeRepository plantTypeRepository)
         {
             _plantRepository = plantRepository;
             _groupOfPlants = groupOfPlants;
+            _plantTypeRepository = plantTypeRepository;
         }
         // GET: PlantController
         public async Task<IActionResult> Index()
