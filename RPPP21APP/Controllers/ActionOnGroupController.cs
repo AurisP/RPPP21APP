@@ -168,5 +168,57 @@ namespace RPPP21APP.Controllers
            
             return RedirectToAction("index" , new { id = actionOnGroup.GroupOfPlantsId} );
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            ActionOnGroup actionOnGroup = await _actionOnGroupRepository.GetByIdAsyncNoTrack(id);
+
+            CreateActionOnGroupViewModel actionVM = new CreateActionOnGroupViewModel()
+            {
+                GroupOfPlantsId = actionOnGroup.GroupOfPlantsId,
+                Time = actionOnGroup.Time,
+                QuantityIfHarvest= actionOnGroup.QuantityIfHarvest,
+                ActionId = actionOnGroup.ActionId,
+                StorageId = actionOnGroup.StorageId,
+                Storage = actionOnGroup.Storage,
+                ActionM = actionOnGroup.Action,
+                MaterialUseId= actionOnGroup.MaterialUseId,
+                materialUse =actionOnGroup.MaterialUse,
+
+                Workers = await _workerRepository.GetAll(),
+                Materials = await _materialRepository.GetAll(),
+            };
+            return View(actionVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, CreateActionOnGroupViewModel actionOnGroupVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                //ViewBag.ContractorId = new SelectList(await _contractorRepository.GetAll(), "ContractorId", "Surname");
+                return View("Error");
+            }
+
+            var action = await _actionOnGroupRepository.GetByIdAsync(id);
+            if (action == null)
+            {
+                return NotFound();
+            }
+
+        
+
+            try
+            {
+                _actionOnGroupRepository.Update(action);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }
