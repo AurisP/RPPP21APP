@@ -1,0 +1,69 @@
+﻿@model RPPP21APP.Models.PlantType
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PlantType</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CaloriesPer100g)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CaloriesPer100g)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FatPer100g)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FatPer100g)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProteinPer100g)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProteinPer100g)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FiberPer100g)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FiberPer100g)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CarbsPer100g)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CarbsPer100g)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Vitamins)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Vitamins)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PlantBiology)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PlantBiology.PlantBiologyId)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="PlantTypeId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

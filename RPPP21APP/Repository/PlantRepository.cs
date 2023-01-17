@@ -36,6 +36,15 @@ namespace RPPP21APP.Repositories
         {
             return await _context.Plants.AsNoTracking().FirstOrDefaultAsync(x => x.PlantId == id);
         }
+        public async Task<Plant> GetByIdAsyncNoTrackPassport(int id)
+        {
+            return await _context.Plants
+            .Include(i => i.GroupOfPlants)
+            .ThenInclude(g => g.PlantType)
+            .ThenInclude(h => h.PlantBiology)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.PlantId == id); ;
+        }
 
         public bool Add(Plant plant)
         {

@@ -74,19 +74,49 @@ namespace RPPP21APP.Controllers
         }
 
         // GET: PlantTypeController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> EditAsync(int id)
         {
-            return View();
+            var planttype = await _plantTypeRepository.GetByIdAsync(id);
+            if (planttype == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.PlantBiologyId = new SelectList(await _plantBiologyRepository.GetAll(), "PlantBiologyId", "Name");
+
+            return View(planttype);
         }
 
         // POST: PlantTypeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> EditAsync(int id, CreatePlantTypeViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.PlantBiologyId = new SelectList(await _plantBiologyRepository.GetAll(), "PlantBiologyId", "Name");
+
+                return View("Edit");
+            }
+
+            var planttype = await _plantTypeRepository.GetByIdAsync(id);
+            if (planttype == null)
+            {
+                return NotFound();
+            }
+
+            planttype.Type = model.Type;
+            planttype.CaloriesPer100g = model.CaloriesPer100g;
+            planttype.FatPer100g = model.FatPer100g;
+            planttype.ProteinPer100g = model.ProteinPer100g;
+            planttype.FiberPer100g = model.FiberPer100g;
+            planttype.CarbsPer100g = model.CarbsPer100g;
+            planttype.Vitamins = model.Vitamins;
+            planttype.PlantBiologyId = model.PlantBiologyId;
             try
             {
-                return RedirectToAction(nameof(Index));
+                _plantTypeRepository.Update(planttype);
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -95,24 +125,38 @@ namespace RPPP21APP.Controllers
         }
 
         // GET: PlantTypeController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            var passport = await _plantTypeRepository.GetByIdAsync(id);
+            if (passport == null)
+            {
+                // If the infrastructure object is not found, return a 404 error
+                return NotFound();
+            }
+
+            // Pass the infrastructure object to the view
+            return View(passport);
         }
 
-        // POST: PlantTypeController/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            try
+            // Get the infrastructure object with the given id
+            var passport = await _plantTypeRepository.GetByIdAsync(id);
+            if (passport == null)
             {
-                return RedirectToAction(nameof(Index));
+                // If the infrastructure object is not found, return a 404 error
+                return NotFound();
             }
-            catch
-            {
-                return View();
-            }
+
+            // Delete the infrastructure object from the database
+            _plantTypeRepository.Delete(passport);
+            // Redirect to the index page
+
+            // Otherwise, redirect to the Index action in the current controller
+            return RedirectToAction("Index");
+
         }
     }
 }

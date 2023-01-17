@@ -6,7 +6,7 @@ using RPPP21APP.Models;
 using RPPP21APP.Repositories;
 using RPPP21APP.Repository;
 using RPPP21APP.ViewModels;
-
+using System.Linq;
 namespace RPPP21APP.Controllers
 {
     public class PassportController : Controller
@@ -29,12 +29,15 @@ namespace RPPP21APP.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var passport = await _passportRepository.GetByIdAsyncNoTrack(id);
+            var plant = await _plantRepository.GetByIdAsyncNoTrackPassport(id);
+
             if (passport == null)
             {
                 return View();
             }
             else
             {
+                ViewBag.Plant = plant;
                 return View(passport);
             }
             

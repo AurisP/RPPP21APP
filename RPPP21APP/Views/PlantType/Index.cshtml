@@ -4,45 +4,47 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Plant Types</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
+<div class="table-responsive">
 <table class="table table-hover table-dark">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
+                <th scope="col">
+                Name of Type
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CaloriesPer100g)
+                <th scope="col">
+                Calories/100g
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FatPer100g)
+                <th scope="col">
+                Fat/100g
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProteinPer100g)
+                <th scope="col">
+                Protein/100g
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FiberPer100g)
+                <th scope="col">
+                Fiber/100g
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarbsPer100g)
+                <th scope="col">
+                Carbohydrates/100g
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vitamins)
+                <th scope="col">
+                Vitamins
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PlantBiologyId)
+                <th scope="col">
+                Biology of Plant
             </th>
-            <th></th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+                    <td scope="row">
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
@@ -67,11 +69,13 @@
                     @Html.DisplayFor(modelItem => item.PlantBiology.Name)
                 </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PlantTypeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PlantTypeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PlantTypeId">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.PlantTypeId" class="btn btn-secondary mr-2"><span class="glyphicon glyphicon-wrench"></span></a>
+            </td>
+            <td>
+                        <a asp-action="Delete" asp-route-id="@item.PlantTypeId" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>
