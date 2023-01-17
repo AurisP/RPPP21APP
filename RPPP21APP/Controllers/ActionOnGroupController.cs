@@ -54,39 +54,44 @@ namespace RPPP21APP.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]       
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int id, CreateActionOnGroupViewModel actionVM)
         {
 
             //Compare storage and amount
-            Material material = await _materialRepository.GetByIdAsyncNoTrack(actionVM.MaterialId);
-            if (material.AmountInStorage < actionVM.materialUse.Amount)
+            int? materialUseId = null;
+            int? storageId = null;
+            if (actionVM.MaterialId != 0)
             {
-                return View("Create");
-            }
-
-            int materialUseId = 0; //initializing id. If no materials used, stays 0;
-            if (actionVM.materialUse.Amount > 0)
-            {
-                var materialUse = new MaterialUse()
+                Material material = await _materialRepository.GetByIdAsyncNoTrack(actionVM.MaterialId);
+                if (material.AmountInStorage < actionVM.materialUse.Amount)
                 {
-                    MaterialId = actionVM.MaterialId,
-                    Amount = actionVM.materialUse.Amount,
-                };
-                materialUseId = _materialUseRepository.Add(materialUse);
-                if (materialUseId == -1)//Error in adding at repository file
-                {
-                    return View("Error");
+                    return View("Create");
                 }
 
-                //Takes amount off from Material storage
-                material.AmountInStorage -= actionVM.materialUse.Amount;     
-                if(!(_materialRepository.Update(material)))
-                    return View("Error");
+                 //initializing id. If no materials used, stays 0;
+                if (actionVM.materialUse.Amount > 0)
+                {
+                    var materialUse = new MaterialUse()
+                    {
+                        MaterialId = actionVM.MaterialId,
+                        Amount = actionVM.materialUse.Amount,
+                    };
+                    materialUseId = _materialUseRepository.Add(materialUse);
+                    if (materialUseId == -1)//Error in adding at repository file
+                    {
+                        return View("Error");
+                    }
 
+                    //Takes amount off from Material storage
+                    material.AmountInStorage -= actionVM.materialUse.Amount;
+                    if (!(_materialRepository.Update(material)))
+                        return View("Error");
+
+                }
             }
 
-            if (actionVM.QuantityIfHarvest > 0)
+            if (actionVM.QuantityIfHarvest > 0 && actionVM.Storage.Place != null)
             {
                 //Gets PlotId for Storage model
                 GroupOfPlant? groupbuf = await _context.GroupOfPlants
@@ -104,7 +109,7 @@ namespace RPPP21APP.Controllers
                 storage.PlantTypeId = groupbuf.PlantTypeId;
                 if (!(_storageRepository.Add(storage)))
                     return View("Error");
-                actionVM.StorageId = storage.StorageId;
+                storageId = storage.StorageId;
             }
 
             var action = new ActionM()
@@ -121,7 +126,7 @@ namespace RPPP21APP.Controllers
                 QuantityIfHarvest= actionVM.QuantityIfHarvest,
                 WorkerId= actionVM.WorkerId,                
                 MaterialUseId= materialUseId,
-                StorageId = actionVM.StorageId,
+                StorageId = storageId,
                 GroupOfPlantsId = id,
                 ActionId = action.ActionId
             };
@@ -159,12 +164,8 @@ namespace RPPP21APP.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             var actionOnGroup = await _actionOnGroupRepository.GetByIdAsync(id);
-            var action = await _actionRepository.GetByIdAsync(actionOnGroup.ActionId);
-            var materialUse = await _materialUseRepository.GetByIdAsync(actionOnGroup.MaterialUseId);
-            var storage = await _storageRepository.GetByIdAsync(actionOnGroup.StorageId);
-            _storageRepository.Delete(storage);
-            _actionRepository.Delete(action);
-            _materialUseRepository.Delete(materialUse);
+            
+            //ActionOnGroups delete set to cascade in DB. Deletes also action, storage and materialuse         
             _actionOnGroupRepository.Delete(actionOnGroup);
            
             return RedirectToAction("index" , new { id = actionOnGroup.GroupOfPlantsId} );
@@ -198,8 +199,7 @@ namespace RPPP21APP.Controllers
         {
             //if (!ModelState.IsValid)
             //{
-            //    //ViewBag.ContractorId = new SelectList(await _contractorRepository.GetAll(), "ContractorId", "Surname");
-            //    return View("Error");
+            //    
             //}
 
             var actionOnGroup = await _actionOnGroupRepository.GetByIdAsync(id);

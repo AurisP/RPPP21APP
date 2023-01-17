@@ -33,12 +33,12 @@ namespace RPPP21APP.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<Storage> GetByIdAsync(int id)
+        public async Task<Storage> GetByIdAsync(int? id)
         {
             return await _context.Storages.FirstOrDefaultAsync(i => i.StorageId == id);
         }
 
-        public Task<Storage> GetByIdAsyncNoTrack(int id)
+        public Task<Storage> GetByIdAsyncNoTrack(int? id)
         {
             throw new NotImplementedException();
         }

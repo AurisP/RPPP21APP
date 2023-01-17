@@ -15,9 +15,9 @@ public partial class ActionOnGroup
 
     public int GroupOfPlantsId { get; set; }
 
-    public int StorageId { get; set; }
+    public int? StorageId { get; set; }
 
-    public int MaterialUseId { get; set; }
+    public int? MaterialUseId { get; set; }
 
     public int WorkerId { get; set; }
 
@@ -25,7 +25,7 @@ public partial class ActionOnGroup
 
     public virtual GroupOfPlant GroupOfPlants { get; set; } = null!;
 
-    public virtual MaterialUse MaterialUse { get; set; } = null!;
+    public virtual MaterialUse? MaterialUse { get; set; } = null!;
 
     public virtual Storage? Storage { get; set; }
 

@@ -42,17 +42,17 @@ namespace RPPP21APP.Repository
             return saved > 0 ? true : false;
         }
 
-        public async Task<MaterialUse> GetByIdAsync(int id)
+        public async Task<MaterialUse> GetByIdAsync(int? id)
         {
             return await _context.MaterialUses.Include(i => i.Material).FirstOrDefaultAsync(i => i.MaterialId == id);
         }
 
-        public async Task<MaterialUse> GetByIdAsyncNoTrack(int id)
+        public async Task<MaterialUse> GetByIdAsyncNoTrack(int? id)
         {
             return await _context.MaterialUses.AsNoTracking().FirstOrDefaultAsync(i => i.MaterialId == id);
         }
 
-        public async Task<MaterialUse> GetByUseIdAsync(int id)
+        public async Task<MaterialUse> GetByUseIdAsync(int? id)
         {
             return await _context.MaterialUses.Include(i => i.Material).FirstOrDefaultAsync(i => i.MaterialUseId == id);
         }

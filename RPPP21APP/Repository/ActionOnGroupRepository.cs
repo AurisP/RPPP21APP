@@ -24,7 +24,7 @@ namespace RPPP21APP.Repository
         public bool Delete(ActionOnGroup action)
         {
             _context.ActionOnGroups.Remove(action);
-            return true; // Save();
+            return Save();
         }
 
         public Task<IEnumerable<ActionOnGroup>> GetAll()
