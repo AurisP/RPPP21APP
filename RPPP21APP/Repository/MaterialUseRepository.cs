@@ -30,9 +30,10 @@ namespace RPPP21APP.Repository
             return Save();
         }    
         
-        public bool Update(MaterialUse materialUse)
+        public int Update(MaterialUse materialUse)
         {
-            throw new NotImplementedException();
+            _context.MaterialUses.Update(materialUse);
+            return Save() == true ? materialUse.MaterialUseId : -1;
         }
 
         public bool Save()
@@ -43,7 +44,17 @@ namespace RPPP21APP.Repository
 
         public async Task<MaterialUse> GetByIdAsync(int id)
         {
-            return await _context.MaterialUses.FirstOrDefaultAsync(i => i.MaterialId == id);
+            return await _context.MaterialUses.Include(i => i.Material).FirstOrDefaultAsync(i => i.MaterialId == id);
+        }
+
+        public async Task<MaterialUse> GetByIdAsyncNoTrack(int id)
+        {
+            return await _context.MaterialUses.AsNoTracking().FirstOrDefaultAsync(i => i.MaterialId == id);
+        }
+
+        public async Task<MaterialUse> GetByUseIdAsync(int id)
+        {
+            return await _context.MaterialUses.Include(i => i.Material).FirstOrDefaultAsync(i => i.MaterialUseId == id);
         }
     }
 }

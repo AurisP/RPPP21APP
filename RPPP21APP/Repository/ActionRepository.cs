@@ -40,7 +40,7 @@ namespace RPPP21APP.Repository
 
         public bool Update(ActionM action)
         {
-            _context.Update(action);
+            _context.Actions.Update(action);
             return Save();
         }
     }

@@ -51,7 +51,9 @@ namespace RPPP21APP.Repository
 
         public bool Update(Storage storage)
         {
-            throw new NotImplementedException();
+            _context.Storages.Update(storage);
+            return Save();
         }
+    
     }
 }

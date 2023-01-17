@@ -75,7 +75,8 @@ namespace RPPP21APP.Repository
 
         public bool Update(ActionOnGroup action)
         {
-            throw new NotImplementedException();
+            _context.ActionOnGroups.Update(action);
+            return Save();
         }
     }
 }
