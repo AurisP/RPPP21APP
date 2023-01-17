@@ -15,12 +15,15 @@ namespace RPPP21APP.Controllers
         private readonly IPlantRepository _plantRepository;
         private readonly IGroupOfPlants _groupOfPlants;
         private readonly IPlantTypeRepository _plantTypeRepository;
+        private readonly IPlotRepository _plotRepository;
 
-        public PlantController(IPlantRepository plantRepository, IGroupOfPlants groupOfPlants, IPlantTypeRepository plantTypeRepository)
+        public PlantController(IPlantRepository plantRepository, IGroupOfPlants groupOfPlants, IPlantTypeRepository plantTypeRepository,
+            IPlotRepository plotRepository)
         {
             _plantRepository = plantRepository;
             _groupOfPlants = groupOfPlants;
             _plantTypeRepository = plantTypeRepository;
+            _plotRepository = plotRepository;
         }
         // GET: PlantController
         public async Task<IActionResult> Index()
@@ -39,7 +42,8 @@ namespace RPPP21APP.Controllers
         // GET: PlantController/Create
         public async Task<ActionResult> Create()
         {
-            ViewBag.GroupOfPlantsId = new SelectList(await _plantTypeRepository.GetAll(), "GroupOfPlantsId", "Type", "GroupOfPlantsId");
+            ViewBag.PlotId = new SelectList(await _plotRepository.GetAll(), "PlotId", "Name");
+            ViewBag.PlantTypeId = new SelectList(await _plantTypeRepository.GetAll(), "PlantTypeId", "Type");
             return View();
         }
 
@@ -48,10 +52,17 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult<Plant>> Create(CreatePlantViewModel model)
         {
+            GroupOfPlant groupOfPlant = await _groupOfPlants.GetByIdAsyncNoTrack(model.PlotId, model.PlantTypeId);
+
+            if (groupOfPlant == null)
+            {
+                return NotFound(); //Should be message of "This group on this plot doesn't exist. Create group first              
+            }
+
             var plant = new Plant
             {
                 Name = model.Name,
-                GroupOfPlantsId = model.GroupOfPlantsId
+                GroupOfPlantsId = groupOfPlant.GroupOfPlantsId
             };
             try
             {

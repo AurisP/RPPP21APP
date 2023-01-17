@@ -12,5 +12,8 @@ namespace RPPP21APP.ViewModels
         public int? GroupOfPlantsId { get; set; }
 
         public IEnumerable<Passport> Passports { get; set; }
+        public int PlantTypeId { get; set; }
+
+        public int PlotId { get; set; }
     }
 }
