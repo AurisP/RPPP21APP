@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 <div class="table-responsive">
     <table class="table table-hover table-dark">
@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.CustomerId" class="btn btn-secondary" >Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.CustomerId" class="btn btn-warning">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.CustomerId" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }
