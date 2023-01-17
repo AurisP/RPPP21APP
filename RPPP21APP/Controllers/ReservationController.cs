@@ -49,11 +49,10 @@ namespace RPPP21APP.Controllers
                 ViewBag.CustomerId = new SelectList(await _customerRepository.GetAll(), "CustomerId", "Name");
                 return View("Create");
             }
-
+            Console.WriteLine("TESTTTT");
+            Console.WriteLine(model.CustomerId);
             var reservation = new Reservation
             {
-                Amount = (int)model.Ammount,
-                AgreedPrice = (int)model.AgreedPrice,
                 CustomerId = model.CustomerId
             };
             try

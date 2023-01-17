@@ -10,6 +10,9 @@ public partial class PlantsReservation
     public int ReservationId { get; set; }
 
     public int PlantId { get; set; }
+    public int Amount { get; set; }
+
+    public int AgreedPrice { get; set; }
 
     public virtual Plant Plants { get; set; } = null!;
 
