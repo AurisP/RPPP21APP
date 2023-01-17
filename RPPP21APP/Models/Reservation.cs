@@ -15,5 +15,5 @@ public partial class Reservation
 
     public virtual Customer Customer { get; set; } = null!;
 
-    public virtual ICollection<GroupOfPlantsReservation> GroupOfPlantsReservations { get; } = new List<GroupOfPlantsReservation>();
+    public virtual ICollection<PlantsReservation> PlantsReservations { get; } = new List<PlantsReservation>();
 }

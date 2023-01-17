@@ -17,7 +17,7 @@ public partial class GroupOfPlant
 
     public virtual ICollection<Grant> Grants { get; } = new List<Grant>();
 
-    public virtual ICollection<GroupOfPlantsReservation> GroupOfPlantsReservations { get; } = new List<GroupOfPlantsReservation>();
+    public virtual ICollection<PlantsReservation> GroupOfPlantsReservations { get; } = new List<PlantsReservation>();
 
     public virtual GroupsOnPlot GroupsOnPlot { get; set; } = null!;
 

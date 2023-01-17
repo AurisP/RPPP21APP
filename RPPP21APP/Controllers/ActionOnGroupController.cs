@@ -6,6 +6,7 @@ using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
 using RPPP21APP.Repository;
 using RPPP21APP.ViewModels;
+using System;
 
 namespace RPPP21APP.Controllers
 {
@@ -193,7 +194,7 @@ namespace RPPP21APP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CreateActionOnGroupViewModel actionOnGroupVM)
+        public async Task<IActionResult> Edit(int id, CreateActionOnGroupViewModel actionVM)
         {
             if (!ModelState.IsValid)
             {
@@ -201,23 +202,87 @@ namespace RPPP21APP.Controllers
                 return View("Error");
             }
 
-            var action = await _actionOnGroupRepository.GetByIdAsync(id);
-            if (action == null)
-            {
-                return NotFound();
-            }
+            //var action = await _actionOnGroupRepository.GetByIdAsync(id);
+            //if (action == null)
+            //{
+            //    return NotFound();
+            //}
 
-        
+            ////Compare storage and amount
+            //Material material = await _materialRepository.GetByIdAsyncNoTrack(actionVM.MaterialId);
+            //if (material.MaterialId != actionVM.MaterialId)
 
-            try
-            {
-                _actionOnGroupRepository.Update(action);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+            //int materialUseId = 0; //initializing id. If no materials used, stays 0;
+            //if (actionVM.materialUse.Amount > 0)
+            //{
+            //    var materialUse = new MaterialUse()
+            //    {
+            //        MaterialId = actionVM.MaterialId,
+            //        Amount = actionVM.materialUse.Amount,
+            //    };
+            //    materialUseId = _materialUseRepository.Add(materialUse);
+            //    if (materialUseId == -1)//Error in adding at repository file
+            //    {
+            //        return View("Error");
+            //    }
+
+            //    //Takes amount off from Material storage
+            //    material.AmountInStorage -= actionVM.materialUse.Amount;
+            //    if (!(_materialRepository.Update(material)))
+            //        return View("Error");
+            //}
+
+            //if (actionVM.QuantityIfHarvest > 0)
+            //{
+            //    //Gets PlotId for Storage model
+            //    GroupOfPlant? groupbuf = await _context.GroupOfPlants
+            //        .Include(i => i.GroupsOnPlot)
+            //        .FirstOrDefaultAsync(i => i.GroupOfPlantsId == id);
+
+            //    if (groupbuf == null)
+            //        return View("Error");
+
+            //    var storage = new Storage();
+            //    storage.TimeOfHarvest = actionVM.Time;
+            //    storage.Amount = actionVM.QuantityIfHarvest;
+            //    storage.PlotId = groupbuf.GroupsOnPlot.PlotId;
+            //    storage.Place = actionVM.Storage.Place;
+            //    storage.PlantTypeId = groupbuf.PlantTypeId;
+            //    if (!(_storageRepository.Add(storage)))
+            //        return View("Error");
+            //    actionVM.StorageId = storage.StorageId;
+            //}
+
+            //var action = new ActionM()
+            //{
+            //    Description = actionVM.ActionM.Description,
+            //};
+
+            //if (!(_actionRepository.Add(action)))
+            //    return View("Error");
+
+            //var actionOnGroup = new ActionOnGroup()
+            //{
+            //    Time = actionVM.Time,
+            //    QuantityIfHarvest = actionVM.QuantityIfHarvest,
+            //    WorkerId = actionVM.WorkerId,
+            //    MaterialUseId = materialUseId,
+            //    StorageId = actionVM.StorageId,
+            //    GroupOfPlantsId = id,
+            //    ActionId = action.ActionId
+            //};
+            //if (!(_actionOnGroupRepository.Add(actionOnGroup)))
+            //    return View("Error");
+
+            //try
+            //{
+            //    _actionOnGroupRepository.Update(action);
+            //    return RedirectToAction("Index");
+            //}
+            //catch
+            //{
                 return View();
-            }
+            //}
         }
 
     }

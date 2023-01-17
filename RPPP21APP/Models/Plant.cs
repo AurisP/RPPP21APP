@@ -18,4 +18,5 @@ public partial class Plant
     public virtual GroupOfPlant? GroupOfPlants { get; set; }
 
     //public virtual ICollection<Passport> Passports { get; } = new List<Passport>();
+    public virtual ICollection<PlantsReservation> PlantsReservations { get; set; } = new List<PlantsReservation>();
 }

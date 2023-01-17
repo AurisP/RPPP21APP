@@ -40,7 +40,7 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<GroupOfPlant> GroupOfPlants { get; set; }
 
-    public virtual DbSet<GroupOfPlantsReservation> GroupOfPlantsReservations { get; set; }
+    public virtual DbSet<PlantsReservation> PlantsReservations { get; set; }
 
     public virtual DbSet<GroupsOnPlot> GroupsOnPlots { get; set; }
 
@@ -313,27 +313,27 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("GroupOfPlants_PlantType_PlantTypeID_fk");
         });
 
-        modelBuilder.Entity<GroupOfPlantsReservation>(entity =>
+        modelBuilder.Entity<PlantsReservation>(entity =>
         {
-            entity.HasKey(e => e.GroupOfPlantsReservationId).HasName("GroupOfPlants_Reservation_pk");
+            entity.HasKey(e => e.PlantsReservationId).HasName("Plant_Reservation_pk");
 
-            entity.ToTable("GroupOfPlants_Reservation", "RPPP21");
+            entity.ToTable("Plant_Reservation", "RPPP21");
 
-            entity.HasIndex(e => e.GroupOfPlantsReservationId, "GroupOfPlants_Reservation_GroupOfPlants_ReservationID_uindex").IsUnique();
+            entity.HasIndex(e => e.PlantsReservationId, "Plant_Reservation_Plant_ReservationID_uindex").IsUnique();
 
-            entity.Property(e => e.GroupOfPlantsReservationId).HasColumnName("GroupOfPlants_ReservationID");
-            entity.Property(e => e.GroupOfPlantsId).HasColumnName("GroupOfPlantsID");
+            entity.Property(e => e.PlantsReservationId).HasColumnName("Plant_ReservationID");
+            entity.Property(e => e.PlantId).HasColumnName("PlantID");
             entity.Property(e => e.ReservationId).HasColumnName("ReservationID");
 
-            entity.HasOne(d => d.GroupOfPlants).WithMany(p => p.GroupOfPlantsReservations)
-                .HasForeignKey(d => d.GroupOfPlantsId)
+            entity.HasOne(d => d.Plants).WithMany(p => p.PlantsReservations)
+                .HasForeignKey(d => d.PlantId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("GroupOfPlants_Reservation_GroupOfPlants_GroupOfPlantsID_fk");
+                .HasConstraintName("Plant_Reservation_Plant_fk");
 
-            entity.HasOne(d => d.Reservation).WithMany(p => p.GroupOfPlantsReservations)
+            entity.HasOne(d => d.Reservation).WithMany(p => p.PlantsReservations)
                 .HasForeignKey(d => d.ReservationId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("GroupOfPlants_Reservation_Reservation_ReservationID_fk");
+                .HasConstraintName("Plant_Reservation_Reservation_ReservationID_fk");
         });
 
         modelBuilder.Entity<GroupsOnPlot>(entity =>
