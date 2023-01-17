@@ -39,7 +39,7 @@ namespace RPPP21APP.Controllers
         // GET: PlantController/Create
         public async Task<ActionResult> Create()
         {
-            ViewBag.GroupOfPlantsId = new SelectList(await _groupOfPlants.GetAll(), "GroupOfPlantsId", "GroupOfPlantsId");
+            ViewBag.GroupOfPlantsId = new SelectList(await _plantTypeRepository.GetAll(), "GroupOfPlantsId", "Type", "GroupOfPlantsId");
             return View();
         }
 
@@ -55,6 +55,8 @@ namespace RPPP21APP.Controllers
             };
             try
             {
+                Console.WriteLine("TEST TEST ");
+                Console.WriteLine(plant.GroupOfPlantsId);
                 _plantRepository.Add(plant);
                 return RedirectToAction("Index");
             }
