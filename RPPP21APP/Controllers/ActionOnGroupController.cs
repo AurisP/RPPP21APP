@@ -128,7 +128,7 @@ namespace RPPP21APP.Controllers
                 return View("Error");
 
 
-            return RedirectToAction("index");
+            return RedirectToAction("index", new { id });
         }
 
         [HttpGet]
@@ -140,5 +140,85 @@ namespace RPPP21APP.Controllers
                 return View(actionOnGroup);
             
         }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            var action = await _actionOnGroupRepository.GetByIdAsync(id);
+            if (action == null)
+            {
+                return NotFound();
+            }
+
+            return View(action);
+        }
+
+        // POST: WorkersController/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            var actionOnGroup = await _actionOnGroupRepository.GetByIdAsync(id);
+            var action = await _actionRepository.GetByIdAsync(actionOnGroup.ActionId);
+            var materialUse = await _materialUseRepository.GetByIdAsync(actionOnGroup.MaterialUseId);
+            var storage = await _storageRepository.GetByIdAsync(actionOnGroup.StorageId);
+            _storageRepository.Delete(storage);
+            _actionRepository.Delete(action);
+            _materialUseRepository.Delete(materialUse);
+            _actionOnGroupRepository.Delete(actionOnGroup);
+           
+            return RedirectToAction("index" , new { id = actionOnGroup.GroupOfPlantsId} );
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            ActionOnGroup actionOnGroup = await _actionOnGroupRepository.GetByIdAsyncNoTrack(id);
+
+            CreateActionOnGroupViewModel actionVM = new CreateActionOnGroupViewModel()
+            {
+                GroupOfPlantsId = actionOnGroup.GroupOfPlantsId,
+                Time = actionOnGroup.Time,
+                QuantityIfHarvest= actionOnGroup.QuantityIfHarvest,
+                ActionId = actionOnGroup.ActionId,
+                StorageId = actionOnGroup.StorageId,
+                Storage = actionOnGroup.Storage,
+                ActionM = actionOnGroup.Action,
+                MaterialUseId= actionOnGroup.MaterialUseId,
+                materialUse =actionOnGroup.MaterialUse,
+
+                Workers = await _workerRepository.GetAll(),
+                Materials = await _materialRepository.GetAll(),
+            };
+            return View(actionVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, CreateActionOnGroupViewModel actionOnGroupVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                //ViewBag.ContractorId = new SelectList(await _contractorRepository.GetAll(), "ContractorId", "Surname");
+                return View("Error");
+            }
+
+            var action = await _actionOnGroupRepository.GetByIdAsync(id);
+            if (action == null)
+            {
+                return NotFound();
+            }
+
+        
+
+            try
+            {
+                _actionOnGroupRepository.Update(action);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }

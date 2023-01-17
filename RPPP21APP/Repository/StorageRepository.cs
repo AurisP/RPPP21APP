@@ -1,4 +1,5 @@
-﻿using RPPP21APP.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
 
@@ -21,6 +22,8 @@ namespace RPPP21APP.Repository
 
         public bool Delete(Storage storage)
         {
+            if (storage == null)
+                return false;
             _context.Remove(storage);
             return Save();
         }
@@ -30,9 +33,9 @@ namespace RPPP21APP.Repository
             throw new NotImplementedException();
         }
 
-        public Task<Storage> GetByIdAsync(int id)
+        public async Task<Storage> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Storages.FirstOrDefaultAsync(i => i.StorageId == id);
         }
 
         public Task<Storage> GetByIdAsyncNoTrack(int id)

@@ -15,9 +15,9 @@ public partial class ActionOnGroup
 
     public int GroupOfPlantsId { get; set; }
 
-    public int? StorageId { get; set; }
+    public int StorageId { get; set; }
 
-    public int? MaterialUseId { get; set; }
+    public int MaterialUseId { get; set; }
 
     public int WorkerId { get; set; }
 

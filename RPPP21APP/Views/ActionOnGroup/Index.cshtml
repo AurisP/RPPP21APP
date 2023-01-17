@@ -18,6 +18,9 @@
                     @Html.DisplayNameFor(model => model.Time)
                 </th>
                 <th>
+                    @Html.DisplayName("Action type")
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.QuantityIfHarvest)
                 </th>
                 <th>
@@ -34,6 +37,9 @@
                     <tr>
                         <td>
                             @Html.DisplayFor(model => item.Time)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Action.Description)
                         </td>
                         <td>
                             @Html.DisplayFor(model => item.QuantityIfHarvest)

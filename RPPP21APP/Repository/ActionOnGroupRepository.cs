@@ -23,7 +23,8 @@ namespace RPPP21APP.Repository
 
         public bool Delete(ActionOnGroup action)
         {
-            throw new NotImplementedException();
+            _context.ActionOnGroups.Remove(action);
+            return true; // Save();
         }
 
         public Task<IEnumerable<ActionOnGroup>> GetAll()
@@ -31,9 +32,15 @@ namespace RPPP21APP.Repository
             throw new NotImplementedException();
         }
 
-        public Task<ActionOnGroup> GetByIdAsync(int id)
+        public async Task<ActionOnGroup> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.ActionOnGroups
+               .Include(i => i.Worker)
+               .Include(i => i.Action)
+               .Include(i => i.MaterialUse)
+                   .ThenInclude(i => i.Material)
+               .Include(i => i.Storage)
+               .FirstOrDefaultAsync(i => i.ActionOnGroupId == id);
         }
 
         public async Task<ActionOnGroup> GetByIdAsyncNoTrack(int id)

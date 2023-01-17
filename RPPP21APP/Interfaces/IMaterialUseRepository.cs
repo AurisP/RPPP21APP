@@ -4,6 +4,7 @@ namespace RPPP21APP.Interfaces
 {
     public interface IMaterialUseRepository
     {
+        Task<MaterialUse> GetByIdAsync(int id);
         int Add(MaterialUse materialUse);
         bool Update(MaterialUse materialUse);
         bool Delete(MaterialUse materialUse);
