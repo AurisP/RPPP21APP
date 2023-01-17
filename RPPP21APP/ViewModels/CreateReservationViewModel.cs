@@ -6,9 +6,6 @@ namespace RPPP21APP.ViewModels
     {
         public int ReservationId { get; set; }
 
-        public double Ammount { get; set; }
-
-        public double AgreedPrice { get; set; }
 
         public int CustomerId { get; set; }
 
