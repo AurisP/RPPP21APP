@@ -27,6 +27,11 @@ namespace RPPP21APP.Repository
             return Save();
         }
 
+        public async Task<ActionM> GetByIdAsync(int id)
+        {
+            return await _context.Actions.FirstOrDefaultAsync(i => i.ActionId == id);
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

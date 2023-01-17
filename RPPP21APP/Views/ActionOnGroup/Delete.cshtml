@@ -1,0 +1,60 @@
+﻿@model RPPP21APP.Models.ActionOnGroup
+
+@{
+    ViewData["Title"] = "Details";
+}
+<h1>Action Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+
+<div class="p-1 mb-2 rounded-3">
+    <div class="container-fluid py-5">
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Time)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Time)
+            </dd>
+            <dt class="col-sm-4">
+                Quantity
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.QuantityIfHarvest)
+            </dd>
+            <dt class="col-sm-4">
+                Action Description
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Action.Description)
+            </dd>
+            <dt class="col-sm-4">
+                Material use amount
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.MaterialUse.Amount)
+            </dd>
+            <dt class="col-sm-4">
+                @*@Html.DisplayNameFor(model => model.Contractor)*@
+                Current material amount in storage
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.MaterialUse.Material.AmountInStorage)
+            </dd>
+            <dt class="col-sm-4">
+                Worker
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Worker.Name)
+                @Html.DisplayFor(model => model.Worker.Surname)
+            </dd>
+        </dl>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ActionOnGroupId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+
+</div>

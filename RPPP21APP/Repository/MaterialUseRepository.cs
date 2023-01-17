@@ -1,4 +1,5 @@
-﻿using RPPP21APP.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
 
@@ -22,7 +23,11 @@ namespace RPPP21APP.Repository
 
         public bool Delete(MaterialUse materialUse)
         {
-            throw new NotImplementedException();
+            if(materialUse == null)
+                return false;
+            
+            _context.MaterialUses.Remove(materialUse);
+            return Save();
         }    
         
         public bool Update(MaterialUse materialUse)
@@ -34,6 +39,11 @@ namespace RPPP21APP.Repository
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public async Task<MaterialUse> GetByIdAsync(int id)
+        {
+            return await _context.MaterialUses.FirstOrDefaultAsync(i => i.MaterialId == id);
         }
     }
 }
