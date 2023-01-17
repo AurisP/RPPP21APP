@@ -26,6 +26,7 @@ builder.Services.AddScoped<IPlantBiologyRepository, PlantBiologyRepository>();
 builder.Services.AddScoped<IStorageRepository, StorageRepository>();
 builder.Services.AddScoped<IActionRepository, ActionRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
