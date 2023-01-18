@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
-using RPPP21APP.Repository;
 using RPPP21APP.ViewModels;
 
 namespace RPPP21APP.Controllers
@@ -38,8 +29,10 @@ namespace RPPP21APP.Controllers
         }
 
         // GET: Lease/Create
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
+            TempData["PreviousPage"] = HttpContext.Request.Headers["Referer"].ToString();
             ViewBag.ContractId = new SelectList(await _contractRepository.GetAll(), "ContractId", "Description");
             ViewBag.LeaseTypeId = new SelectList(await _leasetypeRepository.GetAll(), "LeaseTypeId", "Name");
             ViewBag.PlotId = new SelectList(await _plotRepository.GetAll(), "PlotId", "Name");
@@ -72,7 +65,8 @@ namespace RPPP21APP.Controllers
             try
             {
                 _leaseRepository.Add(lease);
-                return RedirectToAction("Index");
+                return Redirect(TempData["PreviousPage"].ToString());
+                //return RedirectToAction("Index");
             }
             catch
             {
@@ -89,6 +83,7 @@ namespace RPPP21APP.Controllers
                 return NotFound();
             }
 
+            TempData["PreviousPage"] = HttpContext.Request.Headers["Referer"].ToString();
             ViewBag.ContractId = new SelectList(await _contractRepository.GetAll(), "ContractId", "Description");
             ViewBag.LeaseTypeId = new SelectList(await _leasetypeRepository.GetAll(), "LeaseTypeId", "Name");
             ViewBag.PlotId = new SelectList(await _plotRepository.GetAll(), "PlotId", "Name");
@@ -128,7 +123,8 @@ namespace RPPP21APP.Controllers
             try
             {
                 _leaseRepository.Update(lease);
-                return RedirectToAction("Index");
+                return Redirect(TempData["PreviousPage"].ToString());
+                //return RedirectToAction("Index");
             }
             catch
             {
@@ -139,6 +135,7 @@ namespace RPPP21APP.Controllers
         // GET: Lease/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
+            TempData["PreviousPage"] = HttpContext.Request.Headers["Referer"].ToString();
             var lease = await _leaseRepository.GetByIdAsync(id);
             if (lease == null)
             {
@@ -159,7 +156,8 @@ namespace RPPP21APP.Controllers
                 return NotFound();
             }
             _leaseRepository.Delete(lease);
-            return RedirectToAction("Index");
+            return Redirect(TempData["PreviousPage"].ToString());
+            //return RedirectToAction("Index");
         }
     }
 }

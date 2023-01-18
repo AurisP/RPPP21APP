@@ -35,7 +35,7 @@ namespace RPPP21APP.Repository
                 .Include(i => i.Plot)
                 .Include(i => i.Contract)
                 .Include(i => i.LeaseType)
-                .FirstOrDefaultAsync(i => i.LeaseTypeId == id);
+                .FirstOrDefaultAsync(i => i.LeaseId == id);
         }
 
         public async Task<Lease> GetByIdAsyncNoTrack(int id)
@@ -44,7 +44,7 @@ namespace RPPP21APP.Repository
                 .Include(i => i.Plot)
                 .Include(i => i.Contract)
                 .Include(i => i.LeaseType)
-                .AsNoTracking().FirstOrDefaultAsync(i => i.LeaseTypeId == id);
+                .AsNoTracking().FirstOrDefaultAsync(i => i.LeaseId == id);
         }
         public bool Add(Lease lease)
         {
