@@ -11,7 +11,50 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     
     <link rel="stylesheet" href="~/RPPP21APP.styles.css" asp-append-version="true" />
-    
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"> </script>
+
+
+
+
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"> </script>
+    <script>
+        $(document).ready(function () {
+            $('#data').after('<div id="nav"></div>');
+            var rowsShown = 5;
+            var rowsTotal = $('#data tbody tr').length;
+            var numPages = rowsTotal / rowsShown;
+            for (i = 0; i < numPages; i++) {
+                var pageNum = i + 1;
+                $('#nav').append('<a class="btn btn-primary" href="#" rel="' + i + '">' + pageNum + '</a> ');
+            }
+            $('#data tbody tr').hide();
+            $('#data tbody tr').slice(0, rowsShown).show();
+            $('#nav a:first').addClass('active');
+            $('#nav a').bind('click', function () {
+                $('#nav a').removeClass('active');
+                $(this).addClass('active');
+                var currPage = $(this).attr('rel');
+                var startItem = currPage * rowsShown;
+                var endItem = startItem + rowsShown;
+                $('#data tbody tr').css('opacity', '0.0').hide().slice(startItem, endItem).
+                    css('display', 'table-row').animate({ opacity: 1 }, 300);
+            });
+        });
+
+
+
+    </script>
+
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script>
+    function ExportToExcel(type, fn, dl) {
+       var elt = document.getElementById('export');
+       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+       return dl ?
+         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+    }
+</script>
 </head>
 
     

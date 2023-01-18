@@ -4,15 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+
+
+<h1>Customers</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
     <a asp-controller="Reservation" asp-action="Index" class="btn btn-warning">See Reservations</a>
     <a asp-controller="Reservation" asp-action="Create" class="btn btn-primary">Create New Reservation</a>
 </p>
-<div class="table-responsive">
-    <table class="table table-hover table-dark">
+<div class="table-responsive page" align="center">
+    <table class="table table-hover table-dark" id="data" align="center">
     <thead>
         <tr>
             <th>
@@ -48,4 +50,39 @@
 }
     </tbody>
 </table>
+</br>
+<button onclick="ExportToExcel('xlsx')" class="btn btn-warning">Export table to excel</button>
+
 </div>
+<!--FOR DOWNLOADING TO EXCEL-->
+<table class="table" id="export" align="center" style="display: none;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

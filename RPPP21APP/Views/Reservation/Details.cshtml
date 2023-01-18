@@ -48,5 +48,37 @@
                 }
             </tbody>
         </table>
+        </br>
+        <button onclick="ExportToExcel('xlsx')" class="btn btn-warning">Export reservations to excel</button>
     </div>
 </div>
+
+
+<!-- ExportReservation-->
+<table class="table" id="export" align="center" style="display: none;">
+    <thead>
+        <tr>
+            <th scope="col">
+                Plant Name
+            </th>
+            <th scope="col">
+                Amount
+            </th>
+            <th scope="col">
+                Price
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var reservation in ViewBag.Reservation)
+        {
+            <tr>
+                <td>@reservation.Plants.Name</td>
+                <td>@reservation.Amount</td>
+                <td>@reservation.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
