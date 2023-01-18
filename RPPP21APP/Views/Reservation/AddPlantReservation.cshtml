@@ -1,0 +1,47 @@
+﻿@model RPPP21APP.Models.PlantsReservation
+
+@{
+    ViewData["Title"] = "AddPlantReservation";
+}
+
+<h1>AddPlantReservation</h1>
+
+<h4>PlantsReservation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddPlantReservation">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ReservationId" class="control-label">Your reservation number</label>
+                <input asp-for="ReservationId" class="form-control" value="@ViewBag.ReservationId" readonly />
+                <span asp-validation-for="ReservationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlantId" class="control-label">Plant</label>
+                <select asp-for="PlantId" class ="form-control" asp-items="ViewBag.PlantId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-warning">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

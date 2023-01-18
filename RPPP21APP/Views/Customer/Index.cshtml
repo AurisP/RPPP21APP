@@ -9,6 +9,7 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
     <a asp-controller="Reservation" asp-action="Index" class="btn btn-warning">See Reservations</a>
+    <a asp-controller="Reservation" asp-action="Create" class="btn btn-primary">Create New Reservation</a>
 </p>
 <div class="table-responsive">
     <table class="table table-hover table-dark">
@@ -40,7 +41,7 @@
             </td>
             <td>
                         <a asp-action="Edit" asp-route-id="@item.CustomerId" class="btn btn-secondary" >Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.CustomerId" class="btn btn-warning">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.CustomerId" class="btn btn-warning">Details[NOT YET]</a>
                         <a asp-action="Delete" asp-route-id="@item.CustomerId" class="btn btn-danger">Delete</a>
             </td>
         </tr>
