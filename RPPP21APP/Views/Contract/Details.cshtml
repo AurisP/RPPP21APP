@@ -30,7 +30,6 @@
                 @Html.DisplayFor(model => model.ExpiryDate)
             </dd>
             <dt class="col-sm-2">
-                @*@Html.DisplayNameFor(model => model.Contractor)*@
                 Contractor Name
             </dt>
             <dd class="col-sm-10">
@@ -44,6 +43,7 @@
                 @Html.DisplayFor(model => model.Contractor.ContractorId)
             </dd>
         </dl>
+        <button onclick="ExportToExcel('xlsx')" class="btn btn-warning">Export to Excel</button>
     </div>
 </div>
 
@@ -97,7 +97,83 @@
     </tbody>
 </table>
 <div>
-    <a asp-action="Create" asp-controller="Lease" class="btn btn-success">Add New</a>
+    <a asp-action="Create" asp-controller="Lease" class="btn btn-success" asp-route-id="@Model.ContractId">Add New</a>
 </div>
 <p class="bottom-two"></p>
 
+
+<table class="table" id="export" align="center" style="display: none;">
+    <thead>
+        <tr>
+            <th scope="col">
+                ContractId
+            </th>
+            <th scope="col">
+                Description
+            </th>
+            <th scope="col">
+                Date
+            </th>
+            <th scope="col">
+                ExpiryDate
+            </th>
+            <th scope="col">
+                Contractor Name
+            </th>
+            <th scope="col">
+                Contractor Surname
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.ContractId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.ExpiryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Contractor.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Contractor.Surname)
+            </td>
+        </tr>
+    </tbody>
+    <tr></tr>
+    <thead>
+        <tr>
+            <th scope="col">
+                LeaseId
+            </th>
+            <th scope="col">
+                Cost
+            </th>
+            <th scope="col">
+                Plot
+            </th>
+            <th scope="col">
+                Lease Type
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lease in Model.Leases)
+        {
+            <tr>
+                <td>@lease.LeaseId</td>
+                <td>@lease.Cost</td>
+                <td>@lease.Plot.Name</td>
+                <td>@lease.LeaseType.Name</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
