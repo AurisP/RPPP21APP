@@ -24,9 +24,9 @@ namespace RPPP21APP.Controllers
                             .Select(c => new IdLabel
                             {
                                 Id = c.WorkerId,
-                                Label = c.Name// + " " + c.Surname
+                                Label = c.Name + " " + c.Surname
                             })
-                            .Where(c => c.Name.Contains(term));
+                            .Where(i => i.Label.Contains(term));
 
             var list = await query.OrderBy(l => l.Label)
                                   .ThenBy(l => l.Id)

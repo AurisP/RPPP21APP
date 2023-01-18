@@ -3,6 +3,9 @@
 
 <h1>Create</h1>
 
+@{
+    ViewData["Title"] = "Create";
+}
 <h4>Action</h4>
 <hr />
 <h6>Leave appropriate fields empty when not needed</h6>
@@ -35,15 +38,14 @@
             <div class="mb-3 row">
                 <label asp-for="WorkerId" class="control-label">Worker</label>
                 <div class="col-sm-5">
-                    <input asp-for="Name" class="form-control" data-autocomplete="Workers"
+                    <input asp-for="Name" class="form-control" data-autocomplete="workers"
                            data-autocomplete-placeholder-name="worker-name"
                            value="@Model.Name" />
                     <input type="hidden" asp-for="WorkerId" data-autocomplete-placeholder="worker-name" />
                 </div>
                 <div class="form-text col-sm-5"><span asp-validation-for="WorkerId" class="text-danger"></span></div>
             </div>
-           
-            
+                
             <div class="form-group">
                 <label asp-for="WorkerId" class="control-label">Worker name</label>
                 <select asp-for="WorkerId" class="form-control" asp-items="@(new SelectList(Model.Workers,"WorkerId","Name"))" class="form-control form-control">
@@ -76,11 +78,15 @@
     <a asp-action="Index" class="btn btn-secondary mr-2">Back to List</a>
 </div>
 
-@section Scripts {
-    @*@{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }*@
+@section styles{
+    <link rel="stylesheet"
+    href="~/lib/jqueryui/themes/base/jquery-ui.css" /> 
+}
 
-    <script src="~/lib/jqueryui/jquery-ui.js"></script>
-    <script src="~/js/autocomplete.js" asp-append-version="true"></script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="~/lib/jqueryui/jquery-ui.js"></script>
+        <script src="~/js/autocomplete.js"></script>
+    }
 }
