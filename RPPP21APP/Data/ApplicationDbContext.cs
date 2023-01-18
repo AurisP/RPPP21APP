@@ -638,10 +638,10 @@ public partial class ApplicationDbContext : DbContext
             entity.HasIndex(e => e.WorkerId, "Worker_WorkerID_uindex").IsUnique();
 
             entity.Property(e => e.WorkerId).HasColumnName("WorkerID");
-            entity.Property(e => e.Experience).HasColumnType("text");
-            entity.Property(e => e.Name).HasColumnType("text");
-            entity.Property(e => e.PhoneNumber).HasColumnType("text");
-            entity.Property(e => e.Surname).HasColumnType("text");
+            entity.Property(e => e.Experience).HasColumnType("text").HasMaxLength(100);
+            entity.Property(e => e.Name).HasColumnType("text").HasMaxLength(40);
+            entity.Property(e => e.PhoneNumber).HasColumnType("text").HasMaxLength(40);
+            entity.Property(e => e.Surname).HasColumnType("text").HasMaxLength(40);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -17,6 +17,6 @@ namespace RPPP21APP.ViewModels
         public int? StorageId { get; set; }
         public virtual IEnumerable<Worker>? Workers { get; set; }
         public virtual Storage? Storage { get; set; }
-
+        public string Name { get; set; }
     }
 }

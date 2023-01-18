@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using RPPP21APP.Data;
+using RPPP21APP.ViewModels;
 
 namespace RPPP21APP.Controllers
 {
@@ -15,9 +18,21 @@ namespace RPPP21APP.Controllers
             _context = context;
             _appData = options.Value;
         }
-        public IActionResult Index()
+        public async Task<List<IdLabel>> Workers(string term)
         {
-            return View();
+            var query = _context.Workers
+                            .Select(c => new IdLabel
+                            {
+                                Id = c.WorkerId,
+                                Label = c.Name// + " " + c.Surname
+                            })
+                            .Where(c => c.Name.Contains(term));
+
+            var list = await query.OrderBy(l => l.Label)
+                                  .ThenBy(l => l.Id)
+                                  .Take(_appData.AutoCompleteCount)
+                                  .ToListAsync();
+            return list;
         }
     }
 }
