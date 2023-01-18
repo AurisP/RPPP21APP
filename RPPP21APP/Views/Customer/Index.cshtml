@@ -4,15 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+
+
+<h1>Customers</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
     <a asp-controller="Reservation" asp-action="Index" class="btn btn-warning">See Reservations</a>
     <a asp-controller="Reservation" asp-action="Create" class="btn btn-primary">Create New Reservation</a>
 </p>
-<div class="table-responsive">
-    <table class="table table-hover table-dark">
+<div class="table-responsive page" align="center">
+    <table class="table table-hover table-dark" id="data" align="center">
     <thead>
         <tr>
             <th>
@@ -48,4 +50,6 @@
 }
     </tbody>
 </table>
+
+
 </div>
