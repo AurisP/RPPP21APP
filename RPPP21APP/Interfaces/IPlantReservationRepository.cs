@@ -7,6 +7,8 @@ namespace RPPP21APP.Interfaces
         Task<IEnumerable<PlantsReservation>> GetAll();
         Task<PlantsReservation> GetByIdAsync(int id);
         Task<PlantsReservation> GetByIdAsyncNoTrack(int id);
+
+        Task<IEnumerable<PlantsReservation>> GetByReservationIdWithPlantAsync(int ReservationId);
         Task<int> GetCountAsync();
         Task<IEnumerable<PlantsReservation>> GetSliceAsync(int offset, int size);
         bool Add(PlantsReservation plantsReservation);

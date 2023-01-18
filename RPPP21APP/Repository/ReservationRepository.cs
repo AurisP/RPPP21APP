@@ -20,7 +20,9 @@ namespace RPPP21APP.Repositories
         public async Task<IEnumerable<Reservation>> GetAll()
         {
 
-            return await _context.Reservations.ToListAsync();
+            return await _context.Reservations
+                .Include(i => i.Customer)
+                .ToListAsync();
         }
 
         public async Task<Reservation> GetByIdAsync(int id)
@@ -30,7 +32,7 @@ namespace RPPP21APP.Repositories
 
         public async Task<Reservation> GetByIdAsyncNoTrack(int id)
         {
-            return await _context.Reservations.AsNoTracking().FirstOrDefaultAsync(w => w.ReservationId == id);
+            return await _context.Reservations.Include(i => i.Customer).AsNoTracking().FirstOrDefaultAsync(w => w.ReservationId == id);
         }
         public async Task<int> GetCountAsync()
         {

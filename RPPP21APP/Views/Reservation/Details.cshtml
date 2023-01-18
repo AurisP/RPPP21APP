@@ -1,0 +1,52 @@
+﻿@model RPPP21APP.Models.Reservation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+<div>
+    <a asp-action="Index" class="btn btn-warning">Back to List</a>
+</div>
+</br>
+<div class="card bg-dark text-white">
+    <h5 class="card-header">Order of @Html.DisplayFor(model => model.Customer.Name)</h5>
+    <h5 class="card-header">Order id @Html.DisplayFor(model => model.ReservationId)</h5>
+    <div class="card-body">
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                <th scope="col">
+                Plant Name
+                </th>
+                <th scope="col">
+                Amount
+                </th>
+                <th scope="col">
+                Price
+                </th>
+                <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+@foreach (var reservation in ViewBag.Reservation)
+{ 
+                <tr>
+                    <td>@reservation.Plants.Name</td>
+                    <td>@reservation.Amount</td>
+                    <td>@reservation.Price</td>
+                        <td><a asp-action="Edit" asp-route-id="@reservation.PlantsReservationId" class="btn btn-secondary mr-2"><span class="glyphicon glyphicon-wrench"></span></a>
+                        </td>
+                        <td>
+                            <a asp-action="DeletePlant" asp-route-id="@reservation.PlantsReservationId" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>
+
+                        </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

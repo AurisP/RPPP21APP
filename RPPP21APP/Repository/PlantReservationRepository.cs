@@ -19,7 +19,6 @@ namespace RPPP21APP.Repositories
 
         public async Task<IEnumerable<PlantsReservation>> GetAll()
         {
-
             return await _context.PlantsReservations.ToListAsync();
         }
 
@@ -27,10 +26,14 @@ namespace RPPP21APP.Repositories
         {
             return await _context.PlantsReservations.FindAsync(id);
         }
+        public async Task<IEnumerable<PlantsReservation>> GetByReservationIdWithPlantAsync(int ReservationId)
+        {
+            return await _context.PlantsReservations.Include(i => i.Plants).Where(x => x.ReservationId == ReservationId).ToListAsync();
+        }
 
         public async Task<PlantsReservation> GetByIdAsyncNoTrack(int id)
         {
-            return await _context.PlantsReservations.AsNoTracking().FirstOrDefaultAsync(w => w.PlantsReservationId == id);
+            return await _context.PlantsReservations.AsNoTracking().FirstOrDefaultAsync(w => w.ReservationId == id);
         }
         public async Task<int> GetCountAsync()
         {
