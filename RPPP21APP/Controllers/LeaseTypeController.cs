@@ -6,156 +6,129 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RPPP21APP.Data;
+using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
+using RPPP21APP.Repository;
+using RPPP21APP.ViewModels;
 
 namespace RPPP21APP.Controllers
 {
     public class LeaseTypeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ILeaseTypeRepository _leasetypeRepository;
 
-        public LeaseTypeController(ApplicationDbContext context)
+        public LeaseTypeController(ILeaseTypeRepository leasetypeRepository)
         {
-            _context = context;
+            _leasetypeRepository = leasetypeRepository;
         }
 
-        // GET: LeaseType
+        // GET: Contractor
         public async Task<IActionResult> Index()
         {
-              return View(await _context.LeaseTypes.ToListAsync());
+            return View(await _leasetypeRepository.GetAll());
         }
 
-        // GET: LeaseType/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.LeaseTypes == null)
-            {
-                return NotFound();
-            }
 
-            var leaseType = await _context.LeaseTypes
-                .FirstOrDefaultAsync(m => m.LeaseTypeId == id);
-            if (leaseType == null)
-            {
-                return NotFound();
-            }
-
-            return View(leaseType);
-        }
-
-        // GET: LeaseType/Create
+        // GET: Contractor/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: LeaseType/Create
+
+        // POST: Contractor/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LeaseTypeId,Name")] LeaseType leaseType)
+        public async Task<IActionResult> Create(CreateLeaseTypeViewModel leasetypeVM)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(leaseType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View("Create");
             }
-            return View(leaseType);
+
+            var leasetype = new LeaseType
+            {
+                Name = leasetypeVM.Name
+            };
+
+            _leasetypeRepository.Add(leasetype);
+            return RedirectToAction("Index");
         }
 
-        // GET: LeaseType/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+
+        // GET: Contractor/Edit/5
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.LeaseTypes == null)
+            var leasetype = await _leasetypeRepository.GetByIdAsync(id);
+            if (leasetype == null)
             {
                 return NotFound();
             }
 
-            var leaseType = await _context.LeaseTypes.FindAsync(id);
-            if (leaseType == null)
-            {
-                return NotFound();
-            }
-            return View(leaseType);
+            return View(leasetype);
         }
 
-        // POST: LeaseType/Edit/5
+        // POST: Contractor/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LeaseTypeId,Name")] LeaseType leaseType)
+        public async Task<IActionResult> Edit(int id, CreateLeaseTypeViewModel leasetypeVM)
         {
-            if (id != leaseType.LeaseTypeId)
+            if (!ModelState.IsValid)
+            {
+                return View("Edit");
+            }
+
+            var leasetype = await _leasetypeRepository.GetByIdAsync(id);
+            if (leasetype == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            leasetype.Name = leasetypeVM.Name;
+
+
+
+            try
             {
-                try
-                {
-                    _context.Update(leaseType);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LeaseTypeExists(leaseType.LeaseTypeId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _leasetypeRepository.Update(leasetype);
+                return RedirectToAction("Index");
             }
-            return View(leaseType);
+            catch
+            {
+                return View();
+            }
         }
 
-        // GET: LeaseType/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+
+        // GET: Contractor/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.LeaseTypes == null)
+            var leasetype = await _leasetypeRepository.GetByIdAsync(id);
+            if (leasetype == null)
             {
                 return NotFound();
             }
 
-            var leaseType = await _context.LeaseTypes
-                .FirstOrDefaultAsync(m => m.LeaseTypeId == id);
-            if (leaseType == null)
-            {
-                return NotFound();
-            }
-
-            return View(leaseType);
+            return View(leasetype);
         }
 
-        // POST: LeaseType/Delete/5
+        // POST: Contractor/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.LeaseTypes == null)
+            var leasetype = await _leasetypeRepository.GetByIdAsync(id);
+            if (leasetype == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.LeaseTypes'  is null.");
+                return NotFound();
             }
-            var leaseType = await _context.LeaseTypes.FindAsync(id);
-            if (leaseType != null)
-            {
-                _context.LeaseTypes.Remove(leaseType);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
-        private bool LeaseTypeExists(int id)
-        {
-          return _context.LeaseTypes.Any(e => e.LeaseTypeId == id);
+            _leasetypeRepository.Delete(leasetype);
+            return RedirectToAction("Index");
         }
     }
 }

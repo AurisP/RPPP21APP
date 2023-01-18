@@ -28,6 +28,8 @@ builder.Services.AddScoped<IActionRepository, ActionRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<IPlantReservationRepository, PlantReservationRepository>();
+builder.Services.AddScoped<ILeaseRepository, LeaseRepository>();
+builder.Services.AddScoped<ILeaseTypeRepository, LeaseTypeRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
