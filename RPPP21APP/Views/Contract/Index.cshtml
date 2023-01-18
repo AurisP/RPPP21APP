@@ -25,6 +25,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
+            <th>
+                Leases
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -40,6 +43,15 @@
                 </td>
                 <td>
                     @Html.DisplayFor(model => item.Date)
+                </td>
+                <td>
+                    @foreach (var item2 in item.Leases.Take(3))
+                    {
+                        @Html.DisplayFor(modelItem => item2.LeaseType.Name)
+                        <span> </span>
+                        @Html.DisplayFor(modelItem => item2.LeaseId)
+                        <span>, </span>
+                    }
                 </td>
                 <td>
                 <a asp-action="Edit" asp-route-id="@item.ContractId" class="btn btn-secondary mr-2">Edit</a>

@@ -15,17 +15,29 @@ namespace RPPP21APP.Repository
         }
         public async Task<IEnumerable<Contract>> GetAll()
         {
-            return await _context.Contracts.Include(i => i.Contractor).AsNoTracking().ToListAsync();
+            return await _context.Contracts
+                .Include(i => i.Contractor)
+                .Include(i => i.Leases)
+                    .ThenInclude(i => i.LeaseType)
+                .AsNoTracking().ToListAsync();
         }
 
         public async Task<Contract> GetByIdAsync(int id)
         {
-            return await _context.Contracts.Include(i => i.Contractor).AsNoTracking().FirstOrDefaultAsync(i => i.ContractId == id);
+            return await _context.Contracts
+                .Include(i => i.Contractor)
+                .Include(i => i.Leases)
+                    .ThenInclude(i => i.LeaseType)
+                .AsNoTracking().FirstOrDefaultAsync(i => i.ContractId == id);
         }
 
         public async Task<Contract> GetByIdAsyncNoTrack(int id)
         {
-            return await _context.Contracts.Include(i => i.Contractor).AsNoTracking().FirstOrDefaultAsync(i => i.ContractId == id);
+            return await _context.Contracts
+                .Include(i => i.Contractor)
+                .Include(i => i.Leases)
+                    .ThenInclude(i => i.LeaseType)
+                .AsNoTracking().FirstOrDefaultAsync(i => i.ContractId == id);
         }
         public bool Add(Contract contract)
         {
