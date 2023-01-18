@@ -37,17 +37,16 @@
                 @Html.DisplayFor(modelItem => item.Cost)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Contract.ContractId)
+                @Html.DisplayFor(modelItem => item.Contract.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LeaseType.LeaseTypeId)
+                @Html.DisplayFor(modelItem => item.LeaseType.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Plot.PlotId)
+                @Html.DisplayFor(modelItem => item.Plot.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.LeaseId" class="btn btn-secondary mr-2">Edit</a>
-                <a asp-action="Details" asp-route-id="@item.LeaseId" class="btn btn-secondary mr-2">Details</a>
                 <a asp-action="Delete" asp-route-id="@item.LeaseId" class="btn btn-danger">Delete</a>
             </td>
         </tr>

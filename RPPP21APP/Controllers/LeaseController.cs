@@ -1,58 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using RPPP21APP.Data;
+using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
+using RPPP21APP.Repository;
+using RPPP21APP.ViewModels;
 
 namespace RPPP21APP.Controllers
 {
     public class LeaseController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ILeaseRepository _leaseRepository;
+        private readonly ILeaseTypeRepository _leasetypeRepository;
+        private readonly IPlotRepository _plotRepository;
+        private readonly IContractRepository _contractRepository;
 
-        public LeaseController(ApplicationDbContext context)
+        public LeaseController(ILeaseRepository leaseRepository, ILeaseTypeRepository leasetypeRepository, IPlotRepository plotRepository, IContractRepository contractRepository)
         {
-            _context = context;
+            _leaseRepository = leaseRepository;
+            _leasetypeRepository = leasetypeRepository;
+            _plotRepository = plotRepository;
+            _contractRepository = contractRepository;
         }
 
         // GET: Lease
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Leases.Include(l => l.Contract).Include(l => l.LeaseType).Include(l => l.Plot);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Lease/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Leases == null)
-            {
-                return NotFound();
-            }
-
-            var lease = await _context.Leases
-                .Include(l => l.Contract)
-                .Include(l => l.LeaseType)
-                .Include(l => l.Plot)
-                .FirstOrDefaultAsync(m => m.LeaseId == id);
-            if (lease == null)
-            {
-                return NotFound();
-            }
-
-            return View(lease);
+            var leases = await _leaseRepository.GetAll();
+            return View(leases);
         }
 
         // GET: Lease/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ContractId"] = new SelectList(_context.Contracts, "ContractId", "ContractId");
-            ViewData["LeaseTypeId"] = new SelectList(_context.LeaseTypes, "LeaseTypeId", "LeaseTypeId");
-            ViewData["PlotId"] = new SelectList(_context.Plots, "PlotId", "PlotId");
+            ViewBag.ContractId = new SelectList(await _contractRepository.GetAll(), "ContractId", "Description");
+            ViewBag.LeaseTypeId = new SelectList(await _leasetypeRepository.GetAll(), "LeaseTypeId", "Name");
+            ViewBag.PlotId = new SelectList(await _plotRepository.GetAll(), "PlotId", "Name");
             return View();
         }
 
@@ -61,36 +51,48 @@ namespace RPPP21APP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LeaseId,Cost,ContractId,LeaseTypeId,PlotId")] Lease lease)
+        public async Task<IActionResult> Create(CreateLeaseViewModel leaseVM)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(lease);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewBag.ContractId = new SelectList(await _contractRepository.GetAll(), "ContractId", "Description");
+                ViewBag.LeaseTypeId = new SelectList(await _leasetypeRepository.GetAll(), "LeaseTypeId", "Name");
+                ViewBag.PlotId = new SelectList(await _plotRepository.GetAll(), "PlotId", "Name");
+                return View("Create");
             }
-            ViewData["ContractId"] = new SelectList(_context.Contracts, "ContractId", "ContractId", lease.ContractId);
-            ViewData["LeaseTypeId"] = new SelectList(_context.LeaseTypes, "LeaseTypeId", "LeaseTypeId", lease.LeaseTypeId);
-            ViewData["PlotId"] = new SelectList(_context.Plots, "PlotId", "PlotId", lease.PlotId);
-            return View(lease);
+
+            var lease = new Lease
+            {
+                Cost = leaseVM.Cost,
+                ContractId = leaseVM.ContractId,
+                LeaseTypeId = leaseVM.LeaseTypeId,
+                PlotId = leaseVM.PlotId
+            };
+
+            try
+            {
+                _leaseRepository.Add(lease);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: Lease/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Leases == null)
-            {
-                return NotFound();
-            }
-
-            var lease = await _context.Leases.FindAsync(id);
+            var lease = await _leaseRepository.GetByIdAsync(id);
             if (lease == null)
             {
                 return NotFound();
             }
-            ViewData["ContractId"] = new SelectList(_context.Contracts, "ContractId", "ContractId", lease.ContractId);
-            ViewData["LeaseTypeId"] = new SelectList(_context.LeaseTypes, "LeaseTypeId", "LeaseTypeId", lease.LeaseTypeId);
-            ViewData["PlotId"] = new SelectList(_context.Plots, "PlotId", "PlotId", lease.PlotId);
+
+            ViewBag.ContractId = new SelectList(await _contractRepository.GetAll(), "ContractId", "Description");
+            ViewBag.LeaseTypeId = new SelectList(await _leasetypeRepository.GetAll(), "LeaseTypeId", "Name");
+            ViewBag.PlotId = new SelectList(await _plotRepository.GetAll(), "PlotId", "Name");
+
             return View(lease);
         }
 
@@ -99,52 +101,45 @@ namespace RPPP21APP.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LeaseId,Cost,ContractId,LeaseTypeId,PlotId")] Lease lease)
+        public async Task<IActionResult> Edit(int id, CreateLeaseViewModel leaseVM)
         {
-            if (id != lease.LeaseId)
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ContractId = new SelectList(await _contractRepository.GetAll(), "ContractId", "Description");
+                ViewBag.LeaseTypeId = new SelectList(await _leasetypeRepository.GetAll(), "LeaseTypeId", "Name");
+                ViewBag.PlotId = new SelectList(await _plotRepository.GetAll(), "PlotId", "Name");
+                return View("Edit");
+            }
+
+            var lease = await _leaseRepository.GetByIdAsync(id);
+            if (lease == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            //System.Console.WriteLine(contract.ContractorId);
+            lease.Cost = leaseVM.Cost;
+            lease.ContractId = leaseVM.ContractId;
+            lease.LeaseTypeId = leaseVM.LeaseTypeId;
+            lease.PlotId = leaseVM.PlotId;
+            //System.Console.WriteLine(contractVM.ContractorId);
+            //System.Console.WriteLine(contract.ContractorId);
+
+            try
             {
-                try
-                {
-                    _context.Update(lease);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LeaseExists(lease.LeaseId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _leaseRepository.Update(lease);
+                return RedirectToAction("Index");
             }
-            ViewData["ContractId"] = new SelectList(_context.Contracts, "ContractId", "ContractId", lease.ContractId);
-            ViewData["LeaseTypeId"] = new SelectList(_context.LeaseTypes, "LeaseTypeId", "LeaseTypeId", lease.LeaseTypeId);
-            ViewData["PlotId"] = new SelectList(_context.Plots, "PlotId", "PlotId", lease.PlotId);
-            return View(lease);
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: Lease/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Leases == null)
-            {
-                return NotFound();
-            }
-
-            var lease = await _context.Leases
-                .Include(l => l.Contract)
-                .Include(l => l.LeaseType)
-                .Include(l => l.Plot)
-                .FirstOrDefaultAsync(m => m.LeaseId == id);
+            var lease = await _leaseRepository.GetByIdAsync(id);
             if (lease == null)
             {
                 return NotFound();
@@ -158,23 +153,13 @@ namespace RPPP21APP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Leases == null)
+            var lease = await _leaseRepository.GetByIdAsync(id);
+            if (lease == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Leases'  is null.");
+                return NotFound();
             }
-            var lease = await _context.Leases.FindAsync(id);
-            if (lease != null)
-            {
-                _context.Leases.Remove(lease);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool LeaseExists(int id)
-        {
-          return _context.Leases.Any(e => e.LeaseId == id);
+            _leaseRepository.Delete(lease);
+            return RedirectToAction("Index");
         }
     }
 }
