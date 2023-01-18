@@ -27,7 +27,7 @@ namespace RPPP21APP.Repository
 
         public async Task<IEnumerable<Plot>> GetAll()
         {
-            return await _context.Plots.Include(a => a.WeatherConditions).AsNoTracking().ToListAsync();
+            return await _context.Plots.Include(a => a.WeatherConditions).Include(a => a.Infrastructures).AsNoTracking().ToListAsync();
         }
 
         public async Task<Plot>? GetByIdAsyncNoTrack(int id)

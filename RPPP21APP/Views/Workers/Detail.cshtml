@@ -1,0 +1,51 @@
+﻿@model RPPP21APP.Models.Worker
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Worker Details</h1>
+
+<div class="p-1 mb-2 rounded-3">
+    <div class="container-fluid py-5">
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Surname)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Surname)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Salary)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Salary)
+            </dd>
+            <dt class="col-sm-4">
+                Phone number
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Experience)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Experience)
+            </dd>
+            <dt class="col-sm-4">
+                Working hours
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.WorkingHours)
+            </dd>
+        </dl>
+        <a asp-action="Index" class="btn btn-secondary mr-2">Back to List</a>
+    </div>
+</div>

@@ -38,15 +38,6 @@ namespace RPPP21APP.Controllers
 
             int count = await _workerRepository.GetCountAsync();
 
-            //if (count == 0)
-            //{
-            //    string message = "There is no worker in the database";
-            //    logger.LogInformation(message);
-            //    TempData[Constants.Message] = "message";
-            //    TempData[Constants.ErrorOccurred] = false;
-            //    return RedirectToAction(nameof(Create));
-            //}
-
             var pagingInfo = new PagingInfo
             {
                 CurrentPage = page,
@@ -74,12 +65,10 @@ namespace RPPP21APP.Controllers
 
             return View(workerViewModel);
 
-            //var workers = await _workerRepository.GetAll();
-            //return View(workers);
         }
 
         // GET: Worker/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Detail(int? id)
         {
             if (id == null)
             {

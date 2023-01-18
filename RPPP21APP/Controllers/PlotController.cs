@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RPPP21APP.Data;
 using RPPP21APP.Interfaces;
 using RPPP21APP.Models;
+using RPPP21APP.Repositories;
 using RPPP21APP.Repository;
 using RPPP21APP.ViewModels;
 using System.Collections.Generic;
@@ -128,6 +129,41 @@ namespace RPPP21APP.Controllers
 
                 return View(plot);
             }
+        }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            // Get the object with the given id
+            var plot = await _plotRepository.GetByIdAsync(id);
+            if (plot == null)
+            {
+                // If the infrastructure object is not found, return a 404 error
+                return NotFound();
+            }
+
+            // Pass the infrastructure object to the view
+            return View(plot);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            // Get the infrastructure object with the given id
+            var plot = await _plotRepository.GetByIdAsync(id);
+            if (plot == null)
+            {
+                // If the infrastructure object is not found, return a 404 error
+                return NotFound();
+            }
+
+            // Delete the object from the database
+            _plotRepository.Delete(plot);
+            // Redirect to the index page
+
+            // Otherwise, redirect to the Index action in the current controller
+            return RedirectToAction("Index");
+
         }
     }
 }

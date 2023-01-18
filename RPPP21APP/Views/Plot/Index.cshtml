@@ -8,8 +8,8 @@
     <a asp-controller="Plot" asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 
-<div class="table-responsive">
-    <table class="table table-hover table-dark">
+<div class="table-responsive page" align="left">
+    <table class="table table-hover table-dark" id="data" align="center">
         <thead>
             <tr>
                 <th scope="col">
@@ -21,7 +21,10 @@
                 <th scope="col">
                     @Html.DisplayNameFor(model => model.Coordinates)
                 </th>
-                <th scope="col"></th>
+                <th>
+                    @Html.DisplayName("Infrastructure")
+                </th>
+                <th scope="row"></th>
             </tr>
         </thead>
         <tbody>
@@ -38,12 +41,74 @@
                         @Html.DisplayFor(modelItem => item.Coordinates)
                     </td>
                     <td>
+                     @foreach (var item2 in item.Infrastructures.Take(3))
+                    {
+
+                            @Html.DisplayFor(modelItem => item2.Name)
+                            <span>|</span>
+                    }
+                    </td>
+                    
+                    <td>
                         <a asp-controller="Plot" asp-action="Detail" asp-route-id="@item.PlotId" class="btn btn-secondary mr-2">Details</a>
-                        <a asp-controller="Plot" asp-action="Edit" asp-route-id="@item.PlotId" class="btn btn-danger">Edit</a>
+                        <a asp-controller="Plot" asp-action="Edit" asp-route-id="@item.PlotId" class="btn btn-secondary mr-2">Edit</a>
+                        <a asp-controller="Plot" asp-action="Delete" asp-route-id="@item.PlotId" class="btn btn-danger">Delete</a>
                        
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    </br>
+    <button onclick="ExportToExcel('xlsx')" class="btn btn-warning">Export table to excel</button>
 </div>
+<!--FOR DOWNLOADING TO EXCEL-->
+<table class="table" id="export" align="center" style="display: none;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PlotId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coordinates)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeatherConditions.SunLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeatherConditions.WaterLevel)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlotId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Coordinates)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeatherConditions.SunLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeatherConditions.WaterLevel)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
